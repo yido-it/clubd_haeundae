@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.UserMapper">
+
+	<select id="selectUser" resultType="GrapeUser">
+        SELECT USER_ID
+        	 , USER_NM
+             , USER_PWD
+             , USER_AUTH
+             , LOC_SEQ
+          FROM USER
+         WHERE USER_ID  = #{userId}
+         AND USE_YN = 'Y'
+    </select>
+
+	<select id="selectUserList" resultType="GrapeUser">
+		SELECT A.USER_ID
+		     , A.USER_PWD
+		     , A.USER_NM
+		     , A.USER_AUTH
+		     , B.CMN_NM AS USER_AUTH_NM
+		     , A.LOC_SEQ
+		     , IFNULL(LOC.NAME, '') AS LOC_NAME
+		  FROM USER A
+		 LEFT OUTER JOIN CMN_CODE B ON A.USER_AUTH = B.CMN_CD AND B.USE_YN = 'Y'
+		 LEFT OUTER JOIN LOCATION LOC ON A.LOC_SEQ = LOC.LOC_SEQ AND LOC.USE_YN = 'Y'
+		 WHERE A.USE_YN = 'Y'
+    </select>
+    
+    <update id="deleteUser">
+        UPDATE USER
+           SET USE_YN = 'N'
+         WHERE USER_ID  = #{userId}
+    </update>
+
+    <select id="selectCompanyUserInfo" resultType="GrapeUser">
+        SELECT USER_ID
+        	 , USER_NM
+             , USER_PWD
+             , USER_AUTH
+          FROM USER A
+         WHERE A.USER_ID = #{userId}
+           AND USE_YN = 'Y'
+    </select>
+    
+   <insert id="insertUser">
+        INSERT INTO USER (
+              USER_ID
+			, USER_NM
+			, USER_PWD
+			, USER_AUTH
+			, USE_YN
+			<if test='locSeq != null'>
+             , LOC_SEQ
+            </if>
+        ) VALUES (
+              #{userId}
+            , #{userNm}
+            , #{userPwd}
+            , #{userAuth}
+            , 'Y'
+            <if test='locSeq != null'>
+            , #{locSeq}
+            </if>
+        )
+    </insert>    
+    
+    <update id="updateUser">
+        UPDATE USER
+           SET USER_AUTH    = #{userAuth}
+            <if test='userNm != null'>
+             , USER_NM   = #{userNm}
+            </if>
+            <if test='userPwd != null'>
+             , USER_PWD  = #{userPwd}
+            </if>
+            <if test='locSeq != null'>
+             , LOC_SEQ  = #{locSeq}
+            </if>
+        WHERE USER_ID    = #{userId}
+    </update>
+</mapper>
