@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.TourMapper">
+
+	<select id="selectTourList" resultType="Tour">
+		SELECT A.TOUR_SEQ
+		     , A.LOC_SEQ
+		     , A.TOUR_DT
+		     , A.TOUR_TM
+		     , A.REQ_DT
+		     , A.REQ_NM
+		     , A.REQ_INFO
+			 , AES_DECRYPT(UNHEX(A.REQ_EMAIL), 'grape') REQ_EMAIL
+			 , AES_DECRYPT(UNHEX(A.REQ_TEL), 'grape') REQ_TEL
+		     , A.REQ_STTS_CD
+		     , A.REQ_CNTS
+		     , B.CMN_NM REQ_STTS_NM		     
+		     , C.NAME LOC_NAME
+	 	  FROM TOUR A INNER JOIN CMN_CODE B ON A.REQ_STTS_CD = B.CMN_CD AND B.UP_CD = '300'
+	 	              INNER JOIN LOCATION C ON A.LOC_SEQ = C.LOC_SEQ
+		 WHERE 1 = 1
+		 <if test="reqSttsCd != null and reqSttsCd != ''">
+		   AND A.REQ_STTS_CD = #{reqSttsCd}
+		 </if>
+		 <if test="searchStrtDt != null and searchEndDt != null">
+		   AND A.TOUR_DT BETWEEN #{searchStrtDt} AND #{searchEndDt}
+		 </if>
+		 <if test="locSeq != null">
+		    AND A.LOC_SEQ = #{locSeq}
+		 </if>
+		ORDER BY REQ_DT DESC
+    </select>
+    
+    <select id="selectTourInfo" resultType="Tour">
+        SELECT A.TOUR_SEQ
+             , A.LOC_SEQ
+             , A.TOUR_DT
+             , A.TOUR_TM
+             , A.REQ_DT
+             , A.REQ_NM
+             , A.REQ_INFO
+			 , AES_DECRYPT(UNHEX(A.REQ_EMAIL), 'grape') REQ_EMAIL
+			 , AES_DECRYPT(UNHEX(A.REQ_TEL), 'grape') REQ_TEL
+             , A.REQ_STTS_CD
+             , A.REQ_CNTS
+             , B.CMN_NM REQ_STTS_NM          
+             , C.NAME LOC_NAME
+          FROM TOUR A INNER JOIN CMN_CODE B ON A.REQ_STTS_CD = B.CMN_CD AND B.UP_CD = '300'
+                      INNER JOIN LOCATION C ON A.LOC_SEQ = C.LOC_SEQ
+         WHERE TOUR_SEQ = ${tourSeq}
+    </select>
+    
+    <insert id="insertTour">
+        <selectKey resultType="Integer" keyProperty="tourSeq" order="BEFORE">
+            SELECT IFNULL(MAX(TOUR_SEQ), 0) + 1
+              FROM TOUR
+        </selectKey>
+        INSERT INTO TOUR (
+              TOUR_SEQ
+            , LOC_SEQ
+            , TOUR_DT
+            , TOUR_TM
+            , REQ_DT
+            , REQ_NM
+            , REQ_INFO
+            , REQ_EMAIL
+            , REQ_TEL
+            , REQ_STTS_CD
+            , REQ_CNTS
+            , REG_DT
+            , REG_ID
+        ) VALUES (
+              #{tourSeq}
+            , #{locSeq}
+            , #{tourDt}
+            , #{tourTm}
+            , NOW()
+            , #{reqNm}
+            , #{reqInfo}
+            , HEX(AES_ENCRYPT(#{reqEmail}, 'grape'))
+            , HEX(AES_ENCRYPT(#{reqTel}, 'grape'))
+            , '300001'
+            , #{reqCnts}
+            , CURRENT_TIMESTAMP
+            , #{regId}
+        )
+    </insert>
+    
+    <update id="updateTour">
+        UPDATE TOUR
+           SET UPD_DT     = CURRENT_TIMESTAMP
+             , UPD_ID      = #{updId}
+             <if test="locSeq != null">
+             , LOC_SEQ     = #{locSeq}
+             </if>
+             <if test="tourDt != null">
+             , TOUR_DT     = #{tourDt}
+             </if>
+             <if test="tourTm != null">
+             , TOUR_TM       = #{tourTm}
+             </if>
+             <if test="reqNm != null">
+             , REQ_NM      = #{reqNm}
+             </if>
+             <if test="reqInfo != null">
+             , REQ_INFO    = #{reqInfo}
+             </if>
+             <if test="reqEmail != null">
+			 , REQ_EMAIL = HEX(AES_ENCRYPT(#{reqEmail}, 'grape'))
+             </if>
+             <if test="reqTel != null">
+			 , REQ_TEL = HEX(AES_ENCRYPT(#{reqTel}, 'grape'))
+             </if>
+             <if test="reqSttsCd != null">
+             , REQ_STTS_CD = #{reqSttsCd}
+             </if>
+             <if test="reqCnts != null">
+             , REQ_CNTS = #{reqCnts}
+             </if>
+         WHERE TOUR_SEQ = #{tourSeq}
+    </update>
+</mapper>

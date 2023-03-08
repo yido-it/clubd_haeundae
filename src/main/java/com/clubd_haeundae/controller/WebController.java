@@ -25,12 +25,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.clubd_haeundae.model.Contact;
+import com.clubd_haeundae.model.Location;
+import com.clubd_haeundae.service.ContactService;
+import com.clubd_haeundae.service.LocationService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 @RequestMapping("/")
 public class WebController {
+	
+	@Autowired
+	private LocationService locService;
+	
+	@Autowired
+	private ContactService contService;
 
 	@RequestMapping("")
 	public String index(Model model, Authentication auth) {
@@ -48,6 +59,14 @@ public class WebController {
 	 */
 	@RequestMapping("/main")
 	public String index(Model model, HttpServletRequest request) {
+		
+		// 상단 메뉴에 표출할 지점목록 
+		List<Location> locs = locService.selectLocListWithImg(new Location());
+		model.addAttribute("locs", locs);
+		
+		// 하단에 표출할 대표연락처 
+		Contact cont = contService.getContact(new Contact());
+		model.addAttribute("cont", cont);
 		
 		return "/index";
 	}
@@ -103,6 +122,23 @@ public class WebController {
     	
     	return "/login";
 	}
-   
+
+    @RequestMapping("/qrscan")
+    public String qrCode(Model model, HttpServletRequest request) {
+    	
+    	return "/index";
+    }
+    
+    @RequestMapping("/qrcodeBookConfirm")
+    public String qrcodeBookConfirm(Model model, HttpServletRequest request) {
+    	
+    	Location loc = new Location();
+		List<Location> locs = locService.selectLocList(loc);
+		model.addAttribute("locs", locs);
+		model.addAttribute("menu", "bookConfirm");
+		
+		return "/admin/temp/bookConfirm";
+    }
+    
 }
  	

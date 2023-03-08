@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.BookTempMapper">
+	<select id="getBookTempIndex" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(SEQ), 0) + 1 FROM BOOK_TEMP 
+	</select>
+	
+	<select id="selectBookTemp" resultType="BookTemp">
+		SELECT BOOK_CD
+			, ROOM_SEQ
+			, BOOK_AMT
+			, BOOK_DT
+			, STRT_TM
+			, END_TM
+			, EXCLD_DT
+			, PREV_CNTS
+		 FROM BOOK_TEMP 
+		WHERE 1=1 
+		<if test='bookCd != null and bookCd  != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+    </select>
+    	
+    <!-- 합계금액조회  --> 
+	<select id="getTotalAmt" parameterType="BookTemp" resultType="hashmap">
+		SELECT SUM(BOOK_AMT) AS TOTAL_AMT	    
+		 FROM BOOK_TEMP 
+		WHERE 1=1 
+		<if test='bookCd != null and bookCd  != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+    </select>
+    
+    <insert id="insertBookTemp">
+        INSERT INTO BOOK_TEMP (
+              BOOK_CD
+            , SEQ
+            , ROOM_SEQ
+            , BOOK_DT
+            , STRT_TM
+            , END_TM
+            , EXCLD_DT
+            , BOOK_AMT
+            , PREV_CNTS
+            , REG_DT
+        ) VALUES (
+              #{bookCd}            
+            , #{seq}      
+            , #{roomSeq}
+            , #{bookDt}
+            , #{strtTm}
+            , #{endTm}
+            , #{excldDt}
+            , #{bookAmt}
+            , #{prevCnts}
+            , CURRENT_TIMESTAMP
+        )
+    </insert> 
+    
+    <!-- 데이터 삭제 -->
+    <update id="deleteBookTemp">
+        DELETE
+          FROM BOOK_TEMP
+         WHERE 1=1 
+        <if test='bookCd != null and bookCd != ""'>
+		  AND BOOK_CD = #{bookCd}
+		</if>      
+    </update>
+</mapper>

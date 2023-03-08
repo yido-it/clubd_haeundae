@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.FeeMapper">
+	
+	<!-- 예약날짜에 해당하는 요금 가져오기  --> 
+	<select id="getFeeByBookDt" parameterType="hashmap" resultType="hashmap">
+		SELECT LOC_SEQ 
+			, ROOM_SEQ
+			, FEE_SEQ
+			, STRT_DT
+			, END_DT
+			, BASIC_HR
+			, BASIC_FEE
+		    , NIGHT_FEE
+		    , USE_YN		    
+		 FROM FEE
+		WHERE 1=1 
+		<if test='bookDt != null and bookDt != ""'>
+		AND #{bookDt} BETWEEN STRT_DT AND END_DT
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND ROOM_SEQ = #{roomSeq}
+		</if>
+		ORDER BY REG_DT DESC
+		LIMIT 1
+    </select>
+    
+	<!-- 요금표 ( 현재날짜에 해당하는 요금 가져오기 ) --> 
+	<select id="feeTableList" resultType="Fee">
+		SELECT C.LOC_SEQ 
+			 , B.NAME AS ROOM_NM
+			 , CAPACITY
+		     , BASIC_HR
+		     , BASIC_FEE
+		     , NIGHT_FEE    
+		 FROM FEE A INNER JOIN ROOM B ON A.ROOM_SEQ = B.ROOM_SEQ AND B.USE_YN = 'Y'
+					INNER JOIN LOCATION C ON A.LOC_SEQ = C.LOC_SEQ AND C.USE_YN = 'Y'
+		WHERE A.USE_YN = 'Y'
+		  AND current_date() BETWEEN STRT_DT AND END_DT
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		ORDER BY B.ORD
+    </select>
+    
+    <!-- 관리자 - 요금리스트 가져오기 --> 
+    <select id="selectFeeList" resultType="Fee">
+    	SELECT LOC_SEQ 
+			, ROOM_SEQ
+			, FEE_SEQ
+			, STRT_DT
+			, END_DT
+			, BASIC_HR
+			, BASIC_FEE
+		    , NIGHT_FEE
+		    , USE_YN		    
+		 FROM FEE
+		WHERE 1=1
+		<if test='locSeq != null and locSeq != ""'>
+		  AND LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		  AND ROOM_SEQ = #{roomSeq}
+		</if>
+		  AND USE_YN = 'Y'
+		ORDER BY STRT_DT DESC, FEE_SEQ DESC
+    </select>
+    
+    <select id="getFee" resultType="Fee">
+    	SELECT LOC_SEQ 
+			, ROOM_SEQ
+			, FEE_SEQ
+			, STRT_DT
+			, END_DT
+			, BASIC_HR
+			, BASIC_FEE
+		    , NIGHT_FEE
+		    , USE_YN		    
+		 FROM FEE
+		WHERE 1=1
+		<if test='locSeq != null and locSeq != ""'>
+		  AND LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		  AND ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='feeSeq != null and feeSeq != ""'>
+		  AND FEE_SEQ = #{feeSeq}
+		</if>
+		  AND USE_YN = 'Y'
+    </select>
+    
+    <insert id="insertFee">
+    	INSERT INTO FEE (
+    		LOC_SEQ
+    		, ROOM_SEQ
+			, FEE_SEQ
+			, STRT_DT
+			, END_DT
+			, BASIC_HR
+			, BASIC_FEE
+			, NIGHT_FEE
+			, USE_YN
+			, REG_DT
+			, REG_ID
+    	) values (
+    		#{locSeq}
+    		, #{roomSeq}
+			, (SELECT MAX(FEE_SEQ)+1 FROM FEE A)
+			, #{strtDt}
+			, '2999-12-31'
+			, #{basicHr}
+			, #{basicFee}
+			, #{nightFee}
+			, 'Y'
+			, now()
+			, #{regId}
+    	)
+    	    	
+    </insert>
+    
+    <update id="updateFeeByMap">
+    	UPDATE FEE
+    	   SET END_DT = #{endDt}
+    	     , UPD_DT = now()
+    	     , UPD_ID = #{updId}
+    	 WHERE FEE_SEQ = ( SELECT FEE_SEQ FROM (SELECT MAX(FEE_SEQ) AS FEE_SEQ FROM FEE A WHERE LOC_SEQ = #{locSeq} AND ROOM_SEQ = #{roomSeq}) TBL )
+    </update>
+    
+    <update id="updateFee">
+    	UPDATE FEE
+    	   SET UPD_DT = now()
+	    	<if test='updId != null and updId != ""'>
+			 , UPD_ID = #{updId}
+			</if>
+	    	<if test='basicFee != null and basicFee != ""'>
+			 , BASIC_FEE = #{basicFee}
+			</if>
+    	 WHERE 1=1 
+        <if test='feeSeq != null'>
+		   AND FEE_SEQ = #{feeSeq}
+		</if>
+    </update>
+    
+    <select id="selectSameDateFeeCnt" resultType="int">
+    	SELECT COUNT(FEE_SEQ)
+    	  FROM FEE
+    	 WHERE LOC_SEQ = #{locSeq}
+		   AND ROOM_SEQ = #{roomSeq}
+		   AND STRT_DT = #{strtDt}
+    </select>
+    
+    <update id="updateSameFee">
+    	UPDATE FEE
+    	   SET BASIC_FEE = #{basicFee}
+    	     , NIGHT_FEE = #{nightFee}
+    	     , UPD_DT = now()
+    	     , UPD_ID = #{updId}
+    	 WHERE LOC_SEQ = #{locSeq}
+		   AND ROOM_SEQ = #{roomSeq}
+		   AND STRT_DT = #{strtDt} 
+    </update>
+</mapper>

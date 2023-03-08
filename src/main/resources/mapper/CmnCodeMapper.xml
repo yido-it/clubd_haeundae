@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.CmnCodeMapper">
+
+	<select id="selectList" resultType="CmnCode">
+		SELECT CMN_CD
+			 , CMN_NM
+			 , UP_CD
+			 , ORD
+	 	  FROM CMN_CODE
+		 WHERE USE_YN = 'Y'
+		<if test='upCd != null and upCd != ""'>
+		AND UP_CD = #{upCd}
+		</if>
+		ORDER BY CMN_CD
+    </select>
+    
+    <select id="selectTabulatorCombo" resultType="CmnCode">
+        SELECT CMN_CD AS VALUE
+             , CMN_NM AS LABEL
+          FROM CMN_CODE
+         WHERE UP_CD = #{upCd}
+           AND USE_YN = 'Y'
+         ORDER BY ORD
+    </select>
+    
+    <select id="selectTabulatorComboNm" resultType="CmnCode">
+        SELECT CMN_NM AS VALUE
+             , CMN_NM AS LABEL
+          FROM CMN_CODE
+         WHERE UP_CD = #{upCd}
+           AND USE_YN = 'Y'
+         ORDER BY ORD
+    </select>
+    
+    <select id="selectStrToCode" resultType="CmnCode">
+    	SELECT CMN_CD
+    	  FROM CMN_CODE
+    	 WHERE CMN_NM = #{cmnNm}
+		<if test='upCd != null and upCd != ""'>
+		AND UP_CD = #{upCd}
+		</if>
+    </select>
+</mapper>

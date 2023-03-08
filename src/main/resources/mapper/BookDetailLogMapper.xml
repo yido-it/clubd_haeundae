@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.BookDetailLogMapper">
+	<select id="getBkLogIdx" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(LOG_SEQ), 0) + 1 FROM BOOK_DETAIL_LOG
+	</select>
+	
+	<select id="getBkLogGroupCd" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(BOOK_GROUP_CD), 0) + 1 FROM BOOK_DETAIL_LOG
+	</select>
+	
+	<select id="selectBookDetailLog" resultType="BookDetailLog">
+		SELECT A.LOC_SEQ 
+			, A.ROOM_SEQ
+			, A.BOOK_SEQ
+			, B.NAME AS LOCNM
+			, C.NAME AS ROOMNM
+			, BOOK_DT
+			, ROOM_STTS_CD
+		    , A.STRT_TM
+		    , A.END_TM
+		    , FEE
+		 FROM BOOK_DETAIL_LOG A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ
+							INNER JOIN ROOM C ON A.ROOM_SEQ = C.ROOM_SEQ AND A.LOC_SEQ = C.LOC_SEQ
+		WHERE 1=1 
+		<if test='bookSeq != null and bookSeq != ""'>
+		AND A.BOOK_SEQ = #{bookSeq}
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='bookDt != null'>
+		AND BOOK_DT = #{bookDt}
+		</if>
+		<if test='strtTm != null'>
+		AND A.STRT_TM = #{strtTm}
+		</if>
+		<if test='endTm != null'>
+		AND A.END_TM = #{endTm}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+		<if test='bookGroupCd != null'>
+		AND BOOK_GROUP_CD = #{bookGroupCd}
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		AND A.USE_YN = #{useYn}
+		</if>
+		ORDER BY BOOK_DT, STRT_TM   
+    </select>
+
+	<!-- 예약상세이력 -->
+	<select id="selectLogByMap" resultType="BookDetailLog" parameterType="hashmap">
+		SELECT A.LOC_SEQ 
+			 , A.ROOM_SEQ
+			 , A.BOOK_SEQ
+			 , C.NAME AS LOCNM
+			 , D.NAME AS ROOMNM
+			 , A.BOOK_CD
+			 , A.BOOK_DT
+			 , A.ROOM_STTS_CD
+		     , A.STRT_TM
+		     , A.END_TM
+		     , A.FEE
+		     , B.NAME
+			 , AES_DECRYPT(UNHEX(B.TEL), 'grape') TEL
+			 , AES_DECRYPT(UNHEX(B.EMAIL), 'grape') EMAIL
+		     , CASE WHEN A.USE_YN = 'Y' THEN 'X' ELSE 'O' END AS USE_YN
+		     , A.REG_DT
+		     , A.REG_ID
+		     , A.UPD_DT
+		     , A.UPD_ID
+		 FROM BOOK_DETAIL_LOG A INNER JOIN BOOK B ON A.BOOK_CD = B.BOOK_CD
+								INNER JOIN LOCATION C ON A.LOC_SEQ = C.LOC_SEQ AND C.USE_YN = 'Y'
+                        		INNER JOIN ROOM D ON A.ROOM_SEQ = D.ROOM_SEQ AND C.USE_YN = 'Y'
+		WHERE 1=1 
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='strtDt != null and endDt != null'>
+		AND BOOK_DT BETWEEN #{strtDt} AND #{endDt}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		AND A.USE_YN = #{useYn}
+		</if>
+		ORDER BY A.BOOK_CD, A.BOOK_DT, A.STRT_TM   
+    </select>
+    
+    <!-- 예약상세이력 (group by)-->
+	<select id="groupByListByMap" resultType="BookDetailLog" parameterType="hashmap">
+		SELECT C.NAME AS LOCNM
+			 , D.NAME AS ROOMNM
+			 , A.BOOK_DT
+			 , A.STRT_TM
+			 , A.FEE
+		 FROM BOOK_DETAIL_LOG A INNER JOIN BOOK B ON A.BOOK_CD = B.BOOK_CD
+								INNER JOIN LOCATION C ON A.LOC_SEQ = C.LOC_SEQ AND C.USE_YN = 'Y'
+                        		INNER JOIN ROOM D ON A.ROOM_SEQ = D.ROOM_SEQ AND C.USE_YN = 'Y'
+		WHERE 1=1 
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='strtDt != null and endDt != null'>
+		AND BOOK_DT BETWEEN #{strtDt} AND #{endDt}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		AND A.USE_YN = #{useYn}
+		</if>
+		GROUP BY C.NAME, D.NAME, BOOK_DT, STRT_TM, FEE 
+		ORDER BY A.BOOK_CD, A.BOOK_DT, A.STRT_TM   
+    </select>
+    
+	<!-- 예약 상세 결과 -->
+	<select id="selectBookResult" parameterType="hashmap" resultType="hashmap">
+		SELECT B.NAME
+			  , C.NAME AS ROOM_NM 
+			  , MIN(A.BOOK_DT) AS STRT_DT
+			  , MAX(A.BOOK_DT) AS END_DT
+			  , MIN(A.STRT_TM) AS STRT_TM
+			  , MAX(A.END_TM) AS END_TM
+			  , SUM(FEE) AS FEE
+			  , E.FILE_PATH1 AS ROOM_IMG
+			  , A.BOOK_GROUP_CD
+		 FROM BOOK_DETAIL_LOG A INNER JOIN BOOK B ON A.BOOK_CD = B.BOOK_CD 
+						    LEFT JOIN ROOM C ON A.ROOM_SEQ = C.ROOM_SEQ 
+						    LEFT JOIN CMN_CODE D ON B.BOOK_STTS_CD = D.CMN_CD AND D.USE_YN = 'Y' 
+		                    LEFT JOIN IMAGE E ON A.ROOM_SEQ = E.ROOM_SEQ AND E.USE_YN = 'Y' AND (REPR_YN = 'Y' OR E.ORD = 0)
+		WHERE 1=1 
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='name != null and name != ""'>
+		AND B.NAME = #{name}
+		</if>
+		<if test='email != null and email != ""'>
+		AND AES_DECRYPT(UNHEX(B.EMAIL), 'grape') = #{email}
+		</if>
+		GROUP BY A.BOOK_GROUP_CD, C.NAME, E.FILE_PATH1
+		ORDER BY A.BOOK_GROUP_CD
+    </select>
+
+    
+	<select id="getBookDetailLog" resultType="BookDetailLog">
+		SELECT A.LOC_SEQ 
+			, A.ROOM_SEQ
+			, A.BOOK_SEQ
+			, B.NAME AS LOCNM
+			, C.NAME AS ROOMNM
+			, BOOK_DT
+			, ROOM_STTS_CD
+		    , A.STRT_TM
+		    , A.END_TM
+		    , FEE
+		    , OPEN_YN
+		 FROM BOOK_DETAIL A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ
+							INNER JOIN ROOM C ON A.ROOM_SEQ = C.ROOM_SEQ AND A.LOC_SEQ = C.LOC_SEQ
+		WHERE 1=1 
+		<if test='bookSeq != null and bookSeq != ""'>
+		AND A.BOOK_SEQ = #{bookSeq}
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='bookDt != null'>
+		AND BOOK_DT = #{bookDt}
+		</if>
+		<if test='strtTm != null'>
+		AND A.STRT_TM = #{strtTm}
+		</if>
+		<if test='endTm != null'>
+		AND A.END_TM = #{endTm}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+		ORDER BY BOOK_DT, STRT_TM   
+    </select>
+    
+    <!-- 예약로그 데이터 등록 -->
+    <insert id="insertBkDetailLog">
+        INSERT INTO BOOK_DETAIL_LOG (
+              BOOK_DT
+            , LOC_SEQ
+            , ROOM_SEQ
+            , BOOK_SEQ
+            , LOG_SEQ
+            , STRT_TM
+            , END_TM
+            , BOOK_CD
+            , BOOK_GROUP_CD
+            , ROOM_STTS_CD
+            , FEE
+            , USE_YN
+            <if test='regId != null and regId != ""'>
+			, REG_ID 
+			</if>
+            , REG_DT
+        ) VALUES (
+              #{bookDt}
+            , #{locSeq}
+            , #{roomSeq}
+            , #{bookSeq}
+            , #{logSeq}
+            , #{strtTm}
+            , #{endTm}
+            , #{bookCd}
+            , #{bookGroupCd}
+            , #{roomSttsCd}
+            , #{fee}
+            , #{useYn}
+            <if test='regId != null and regId != ""'>
+			, #{regId}
+			</if>
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+    
+    <!-- 예약로그 데이터 수정 -->
+    <update id="updateBkDetailLog">
+        UPDATE BOOK_DETAIL_LOG
+           SET UPD_DT    = CURRENT_TIMESTAMP
+			 <if test='updId != null and updId != ""'>
+             , UPD_ID    = #{updId}
+			 </if>
+			 <if test='useYn != null and useYn != ""'>
+			 , USE_YN = #{useYn}
+			 </if>
+       	WHERE 1=1
+       	<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+       	<if test='bookSeq != null and bookSeq != ""'>
+		AND BOOK_SEQ = #{bookSeq}
+		</if>
+    </update>
+    
+    <!-- 예약로그 데이터 삭제 -->
+    <update id="deleteBkDetailLog">
+        DELETE 
+        FROM BOOK_DETAIL_LOG
+       	WHERE 1=1
+       	<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+       	<if test='bookSeq != null and bookSeq != ""'>
+		AND BOOK_SEQ = #{bookSeq}
+		</if>
+    </update> 
+    
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.RoomMapper">
+
+	<select id="selectRoomList" resultType="Room">
+		SELECT A.LOC_SEQ
+			 , A.ROOM_SEQ
+		     , LOC.NAME AS LOC_NAME
+			 , A.ROOM_SEQ
+		     , A.NAME
+		     , A.ROOM_TP_CD
+		     , C.CMN_NM
+		     , A.CAPACITY
+		     , A.EXPLN
+		     , A.GUIDE
+		     , A.ORD AS ROOM_ORD
+		     , B.FILE_PATH1
+		     , B.FILE_PATH2
+		     , B.FLR_PLAN_YN
+		     , B.ORD AS IMG_ORD
+		     , (SELECT FE.BASIC_FEE 
+                  FROM (SELECT LOC_SEQ
+                             , ROOM_SEQ
+                             , MAX(FEE_SEQ) AS FEE_SEQ 
+                          FROM FEE F 
+                         GROUP BY LOC_SEQ, ROOM_SEQ) TBL INNER JOIN FEE FE ON FE.LOC_SEQ = TBL.LOC_SEQ AND FE.ROOM_SEQ = TBL.ROOM_SEQ AND FE.FEE_SEQ = TBL.FEE_SEQ
+                 WHERE TBL.ROOM_SEQ = A.ROOM_SEQ ) AS BASIC_FEE
+		     , (SELECT FE.NIGHT_FEE 
+                  FROM (SELECT LOC_SEQ
+                             , ROOM_SEQ
+                             , MAX(FEE_SEQ) AS FEE_SEQ 
+                          FROM FEE F 
+                         GROUP BY LOC_SEQ, ROOM_SEQ) TBL INNER JOIN FEE FE ON FE.LOC_SEQ = TBL.LOC_SEQ AND FE.ROOM_SEQ = TBL.ROOM_SEQ AND FE.FEE_SEQ = TBL.FEE_SEQ
+                 WHERE TBL.ROOM_SEQ = A.ROOM_SEQ ) AS NIGHT_FEE
+                 
+	 	  FROM ROOM A INNER JOIN LOCATION LOC ON A.LOC_SEQ = LOC.LOC_SEQ AND LOC.USE_YN = 'Y'
+	 	              INNER JOIN CMN_CODE C   ON A.ROOM_TP_CD = C.CMN_CD
+	 	               LEFT JOIN IMAGE B      ON A.LOC_SEQ = B.LOC_SEQ AND A.ROOM_SEQ = B.ROOM_SEQ AND B.USE_YN = 'Y' AND B.ORD = 0 AND B.FLR_PLAN_YN = 'N'
+		 WHERE A.USE_YN = 'Y'
+		 <if test='locSeq != null'>
+		   AND A.LOC_SEQ = #{locSeq}
+		 </if>
+		 <if test="adminId != null">
+           AND EXISTS (SELECT 1 FROM USER U WHERE U.LOC_SEQ = LOC.LOC_SEQ AND USER_ID = #{adminId} AND USER_AUTH = 'AAA001')
+         </if>
+		 ORDER BY A.LOC_SEQ, A.ORD
+    </select>
+   
+	<select id="getRoom" resultType="Room">
+		SELECT A.LOC_SEQ
+			  , A.ROOM_SEQ
+		      , NAME
+		      , CMN_NM
+		      , CAPACITY
+		      , EXPLN
+		      , GUIDE
+		      , A.ORD AS ROOM_ORD
+	 	 FROM ROOM A INNER JOIN CMN_CODE B ON A.ROOM_TP_CD = B.CMN_CD
+		WHERE A.USE_YN = 'Y'
+		 <if test='locSeq != null'>
+		 AND A.LOC_SEQ = #{locSeq}
+		 </if>
+		 <if test='roomSeq != null'>
+		 AND A.ROOM_SEQ = #{roomSeq}
+		 </if>
+		 ORDER BY A.ORD
+    </select>
+    
+    <insert id="insertRoom">
+    	INSERT INTO ROOM (
+             LOC_SEQ
+             , ROOM_SEQ
+		     , NAME
+		     , ROOM_TP_CD
+		     , CAPACITY
+		     , EXPLN
+		     , GUIDE
+		     , ORD
+		     , USE_YN
+		     , REG_DT
+		     , REG_ID
+        ) VALUES (
+            #{locSeq}
+            , (SELECT MAX(ROOM_SEQ)+1 FROM ROOM A)
+            , #{name}
+            , #{roomTpCd}
+            , #{capacity}
+            , #{expln}
+            , #{guide}
+            <if test='roomOrd == 999999'>
+            , (SELECT MAX(ORD)+1 FROM ROOM A)
+            </if>
+            <if test='roomOrd != 999999'>
+            , #{roomOrd}
+            </if>
+            , 'Y'
+            , now()
+            , #{regId}
+        )
+    </insert>
+    
+    <update id="updateRoom">
+    	UPDATE ROOM
+    	   SET NAME = #{name}
+		     , ROOM_TP_CD = #{roomTpCd}
+		     , CAPACITY = #{capacity}
+		     , EXPLN = #{expln}
+		     , GUIDE = #{guide}
+		     <if test='roomOrd == 999999'>
+             , ORD = (SELECT MAX_ORD FROM (SELECT MAX(ORD)+1 AS MAX_ORD FROM ROOM A) TBL)
+             </if>
+             <if test='roomOrd != 999999'>
+             , ORD = #{roomOrd}
+             </if>
+		     , UPD_DT = #{updDt}
+		     , UPD_ID = #{updId}
+		 WHERE ROOM_SEQ = #{roomSeq}
+		   AND LOC_SEQ = #{locSeq}
+    </update>
+    
+    <update id="deleteRoom">
+    	UPDATE ROOM 
+           SET USE_YN = 'N'
+		     , UPD_DT = now()
+		     , UPD_ID = #{updId}
+         WHERE ROOM_SEQ = #{roomSeq} 
+    </update>
+    
+</mapper>

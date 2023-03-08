@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.LocationMapper">
+
+	<select id="selectLocList" resultType="Location">
+		SELECT A.LOC_SEQ
+			 , A.NAME
+			 , A.ADDR
+			 , A.TEL
+			 , A.STRT_TM
+			 , A.END_TM
+			 , A.EXPLN
+			 , A.AREA
+			 , A.ROOM_CNT
+			 , A.BOOK_GUIDE
+			 , A.CNCL_GUIDE
+			 , A.CMPY_TP
+			 , A.BANK_NM
+			 , A.ACCNT_NO
+			 , A.EST_CORPNM
+			 , A.EST_CORPNO
+			 , A.EST_EMP_NM
+			 , A.EST_EMAIL
+			 , A.EST_TEL	
+			 , A.DETAIL_INFO
+			 , A.ORD
+			 , A.USE_YN
+			 , A.REG_DT
+			 , A.REG_ID
+			 , A.UPD_DT
+			 , A.UPD_ID
+			 , A.LATI
+			 , A.LONGI
+		 FROM LOCATION A 
+         WHERE A.USE_YN = 'Y'
+         <if test="adminId != null">
+         AND EXISTS (SELECT 1 FROM USER U WHERE U.LOC_SEQ = A.LOC_SEQ AND USER_ID = #{adminId} AND USER_AUTH = 'AAA001')
+         </if>
+         ORDER BY LOC_SEQ
+    </select>
+    
+    <select id="selectLocListWithImg" resultType="Location">
+        SELECT A.LOC_SEQ
+             , A.NAME
+             , A.ADDR
+             , A.TEL
+             , A.ROOM_CNT
+             , A.CMPY_TP
+             , A.ORD
+             , A.LATI
+             , A.LONGI
+             , B.FILE_PATH1
+             , B.FILE_PATH2
+         FROM LOCATION A LEFT OUTER JOIN (SELECT MAX(FILE_PATH1) FILE_PATH1
+                                               , MAX(FILE_PATH2) FILE_PATH2
+                                               , LOC_SEQ
+                                            FROM IMAGE IMG
+                                           WHERE USE_YN = 'Y'
+                                             AND ROOM_SEQ = 0
+                                             AND ORD = 0
+                                             AND FLR_PLAN_YN = 'N'
+                                           GROUP BY LOC_SEQ ) B ON A.LOC_SEQ = B.LOC_SEQ
+         WHERE A.USE_YN = 'Y'
+         ORDER BY A.ORD
+    </select>
+    
+   	<select id="getLoc" resultType="Location">
+		SELECT LOC_SEQ
+			 , NAME
+			 , ADDR
+			 , LATI
+             , LONGI
+			 , TEL
+			 , STRT_TM
+			 , END_TM
+			 , EXPLN
+			 , AREA
+			 , ROOM_CNT
+			 , BOOK_GUIDE
+			 , CNCL_GUIDE
+			 , CMPY_TP
+			 , BANK_NM
+			 , ACCNT_NO
+			 , EST_CORPNM
+			 , EST_CORPNO
+			 , EST_EMP_NM
+			 , EST_EMAIL
+			 , EST_TEL	
+			 , DETAIL_INFO
+			 , ORD
+			 , USE_YN
+			 , REG_DT
+			 , REG_ID
+			 , UPD_DT
+			 , UPD_ID
+		 FROM LOCATION  
+         WHERE USE_YN = 'Y'
+ 		 <if test='locSeq != null'>
+		 AND LOC_SEQ = #{locSeq}
+		 </if>       
+ 		 <if test='name != null and name != ""'>
+		 AND NAME = #{name}
+		 </if>         
+         ORDER BY ORD
+    </select>
+    
+    <insert id="insertLoc">
+        INSERT INTO LOCATION (
+             LOC_SEQ
+		     , NAME
+		     , ADDR
+		     <if test='lati != null and lati != ""'>
+		     , LATI
+		     </if>
+		     <if test='longi != longi and lati != ""'>
+		     , LONGI
+		     </if>
+		     , TEL
+		     , STRT_TM
+		     , END_TM
+		     , EXPLN
+		     , AREA
+		     , ROOM_CNT
+		     , BOOK_GUIDE
+		     , CNCL_GUIDE
+		     , CMPY_TP
+			 , BANK_NM
+			 , ACCNT_NO
+			 , EST_CORPNM
+			 , EST_CORPNO
+			 , EST_EMP_NM
+			 , EST_EMAIL
+			 , EST_TEL			 
+			 , DETAIL_INFO
+		     , ORD
+		     , USE_YN
+		     , REG_DT
+		     , REG_ID
+        ) VALUES (
+              (SELECT MAX(LOC_SEQ)+1 FROM LOCATION A)
+            , #{name}
+            , #{addr}
+            <if test='lati != null and lati != ""'>
+            , #{lati}
+            </if>
+            <if test='longi != longi and lati != ""'>
+            , #{longi}
+            </if>
+            , #{tel}
+            , #{strtTm}
+            , #{endTm}
+            , #{expln}
+            , #{area}
+            , #{roomCnt}
+            , #{bookGuide}
+            , #{cnclGuide}
+            , #{cmpyTp}
+            , #{bankNm}
+            , #{accntNo}
+            
+            , #{estCorpnm}
+            , #{estCorpno}
+            , #{estEmpNm}
+            , #{estEmail}
+            , #{estTel}
+            
+            , #{detailInfo}
+            <if test='ord == 999999'>
+            , (SELECT MAX(ORD)+1 FROM LOCATION A) 
+            </if>
+            <if test='ord != 999999'>
+            , #{ord}
+            </if>
+            , 'Y'
+            , now()
+            , #{regId}
+        )
+    </insert>
+    
+    <update id="updateLoc">
+        UPDATE LOCATION
+           SET NAME = #{name} 
+		     , ADDR = #{addr}
+		     <if test='lati != null and lati != ""'>
+		     , LATI = #{lati}
+		     </if>
+		     <if test='longi != longi and lati != ""'>
+		     , LONGI = #{longi}
+		     </if>
+		     , TEL = #{tel}
+		     , STRT_TM = #{strtTm}
+		     , END_TM = #{endTm}
+		     , EXPLN = #{expln}
+		     , AREA = #{area}
+		     , ROOM_CNT = #{roomCnt}
+		     , BOOK_GUIDE = #{bookGuide}
+		     , CNCL_GUIDE = #{cnclGuide}
+		     , CMPY_TP = #{cmpyTp}
+			 , BANK_NM = #{bankNm}
+			 , ACCNT_NO = #{accntNo}
+			 
+			 , EST_CORPNM = #{estCorpnm}
+			 , EST_CORPNO = #{estCorpno}
+			 , EST_EMP_NM = #{estEmpNm}
+			 , EST_EMAIL = #{estEmail}
+			 , EST_TEL = #{estTel}
+			 
+			 , DETAIL_INFO = #{detailInfo}
+		     <if test='ord == 999999'>
+             , ORD = (SELECT MAX_ORD FROM (SELECT MAX(ORD)+1 AS MAX_ORD FROM LOCATION A) TBL) 
+             </if>
+             <if test='ord != 999999'>
+             , ORD = #{ord}
+             </if>
+		     , UPD_DT = now()
+		     , UPD_ID = #{updId}
+         WHERE LOC_SEQ = #{locSeq} 
+    </update>
+    
+    <update id="deleteLoc">
+    	UPDATE LOCATION 
+           SET USE_YN = 'N'
+		     , UPD_DT = now()
+		     , UPD_ID = #{updId}
+         WHERE LOC_SEQ = #{locSeq} 
+    </update>
+    
+    <select id="getLocNmList" resultType="Location">
+    	SELECT NAME AS LABEL
+    	     , NAME AS VALUE
+    	  FROM LOCATION
+    	 WHERE USE_YN = 'Y' 
+    </select>
+    
+    <select id="selectStrToCode" resultType="Location">
+    	SELECT LOC_SEQ
+    	  FROM LOCATION
+    	 WHERE NAME = #{name} 
+    </select>
+    
+</mapper>

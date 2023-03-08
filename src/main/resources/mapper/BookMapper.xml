@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.BookMapper">
+	<select id="getBookIndex" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(SUBSTRING(book_cd, 9, 6)),'000000') FROM BOOK 
+	</select>
+	
+	<select id="selectBookList" parameterType="hashmap" resultType="Book">
+		SELECT BOOK_STRT_DT
+			 , BOOK_END_DT
+			 , BOOK_CD
+		     , B.NAME AS locNm
+		     , CMN_CD AS bookSttsCd
+		     , CMN_NM AS bookSttsNm
+		     , A.NAME
+			 , AES_DECRYPT(UNHEX(A.TEL), 'grape') TEL
+			 , AES_DECRYPT(UNHEX(EMAIL), 'grape') EMAIL
+		     , BOOK_AMT
+		     , DC_AMT
+		     , PAY_AMT
+		     , BOOK_REQ_DT
+		     , B.LOC_SEQ
+		     , B.BANK_NM
+		     , B.ACCNT_NO
+		     , B.CMPY_TP		     
+		FROM BOOK A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ 
+					INNER JOIN CMN_CODE C ON A.BOOK_STTS_CD = C.CMN_CD
+		WHERE 1=1 
+		<if test='strtDt != null and strtDt != "" and endDt != null and endDt != ""'>
+		AND (BOOK_STRT_DT BETWEEN #{strtDt} AND #{endDt} OR BOOK_END_DT BETWEEN #{strtDt} AND #{endDt})
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND B.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+		<if test='name != null and name != ""'>
+		AND A.NAME = #{name}
+		</if>
+		<if test='email != null and email != ""'>
+		AND AES_DECRYPT(UNHEX(EMAIL), 'grape') = #{email}
+		</if>
+		ORDER BY BOOK_CD DESC
+    </select>
+
+	<select id="getBook" resultType="Book">
+		SELECT A.LOC_SEQ
+			 , BOOK_STRT_DT
+			 , BOOK_END_DT
+			 , BOOK_REQ_DT
+			 , BOOK_CD
+		     , B.NAME AS locNm
+		     , CMN_CD AS bookSttsCd
+		     , CMN_NM AS bookSttsNm
+		     , A.NAME
+			 , AES_DECRYPT(UNHEX(A.TEL), 'grape') TEL
+			 , AES_DECRYPT(UNHEX(EMAIL), 'grape') EMAIL
+		     , BOOK_AMT
+		     , DC_AMT
+		     , PAY_AMT
+		     , REQ_CNTS
+		FROM BOOK A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ 
+					INNER JOIN CMN_CODE C ON A.BOOK_STTS_CD = C.CMN_CD
+		WHERE 1=1 
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+    </select>
+
+    <!-- 예약 데이터 등록 -->
+    <insert id="insertBook">
+        INSERT INTO BOOK (
+              BOOK_CD
+            , LOC_SEQ
+            , NAME
+            , EMAIL
+            , TEL
+            , BOOK_STRT_DT
+            , BOOK_END_DT
+            , BOOK_REQ_DT
+            , BOOK_STTS_CD
+            , BOOK_AMT
+            , DC_AMT
+            , PAY_AMT
+            , REQ_CNTS
+            , REG_DT
+        ) VALUES (
+              #{bookCd}
+            , #{locSeq}
+            , #{name}
+            , HEX(AES_ENCRYPT(#{email}, 'grape'))
+            , HEX(AES_ENCRYPT(#{tel}, 'grape'))
+            , #{bookStrtDt}
+            , #{bookEndDt}
+            , CURRENT_TIMESTAMP
+            , #{bookSttsCd}
+            , #{bookAmt}
+            , #{dcAmt}
+            , #{payAmt}
+            , #{reqCnts}
+            , CURRENT_TIMESTAMP
+        )
+    </insert> 
+    
+    <!-- 예약 데이터 수정 -->
+    <update id="updateBook">
+        UPDATE BOOK
+           SET UPD_DT    = CURRENT_TIMESTAMP
+             <if test='updId != null and updId != ""'>
+			 , UPD_ID    = #{updId}
+			 </if>
+			 <if test='bookSttsCd != null and bookSttsCd != ""'>
+			 , BOOK_STTS_CD = #{bookSttsCd}
+			 </if>
+			 <if test='name != null and name != ""'>
+			 , NAME = #{name}
+			 </if>
+			 <if test='tel != null and tel != ""'>
+			 , TEL = HEX(AES_ENCRYPT(#{tel}, 'grape'))
+			 </if>
+			 <if test='email != null and email != ""'>
+			 , EMAIL = HEX(AES_ENCRYPT(#{email}, 'grape'))
+			 </if>
+			 <if test='bookAmt != null'>
+			 , BOOK_AMT = #{bookAmt}
+			 </if>
+			 <if test='payAmt != null'>
+			 , PAY_AMT = #{payAmt}
+			 </if>
+			 <if test='dcAmt != null'>
+			 , DC_AMT = #{dcAmt}
+			 </if>
+			 <if test='reqCnts != null and reqCnts != ""'>
+			 , REQ_CNTS = #{reqCnts}
+			 </if>
+      	 WHERE BOOK_CD = #{bookCd}
+    </update>
+    
+    <!-- 예약 데이터 삭제 -->
+    <update id="deleteBook">
+        DELETE 
+        FROM BOOK
+       	WHERE BOOK_CD = #{bookCd}
+    </update>
+    
+</mapper>

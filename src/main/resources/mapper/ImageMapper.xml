@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.ImageMapper">
+
+	<insert id="insertImage">
+        INSERT INTO IMAGE
+		(
+			IMG_SEQ
+			, FILE_PATH1
+			, FILE_PATH2
+			, LOC_SEQ
+			, ROOM_SEQ
+			, ORD
+			, FLR_PLAN_YN
+			, USE_YN
+			, REG_DT 
+	    	<if test='regId != null and regId != ""'>
+			 , REG_ID 
+			</if>
+		)
+		VALUES(
+			(SELECT IFNULL(MAX(IMG_SEQ)+1,1) FROM IMAGE A)
+			, #{filePath1}
+			, #{filePath2}
+			, #{locSeq}
+			, #{roomSeq}
+			<if test="ord == null">
+			, (SELECT IFNULL(MAX(ORD)+1,0) FROM IMAGE B WHERE B.LOC_SEQ = #{locSeq} AND B.ROOM_SEQ = #{roomSeq} AND B.FLR_PLAN_YN = #{flrPlanYn})
+			</if>
+			<if test="ord != null">
+			, #{ord}
+			</if>
+			, #{flrPlanYn}
+			, 'Y'
+			, now()
+	    	<if test='regId != null and regId != ""'>
+			 , #{regId}
+			</if>
+		)
+    </insert>
+    
+    <select id="selectImageList" resultType="Image">
+    	SELECT
+		       A.IMG_SEQ
+		     , A.FILE_PATH1
+		     , A.FILE_PATH2
+		     , A.LOC_SEQ
+		     , A.ROOM_SEQ
+		     , A.ORD
+		     , A.FLR_PLAN_YN
+		     , A.USE_YN
+		     , B.NAME AS LOC_NAME
+		     , C.NAME AS ROOM_NAME
+		  FROM IMAGE A LEFT OUTER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ AND B.USE_YN = 'Y'
+		               LEFT OUTER JOIN ROOM     C ON A.LOC_SEQ = C.LOC_SEQ AND A.ROOM_SEQ = C.ROOM_SEQ AND C.USE_YN = 'Y'
+		 WHERE A.USE_YN = 'Y'
+		 <if test="locSeq != null">
+		   AND A.LOC_SEQ = #{locSeq}
+		 </if>
+		 <if test="roomSeq != null">
+		   AND A.ROOM_SEQ = #{roomSeq}
+		 </if> 		  
+		 <if test="flrPlanYn != null">
+		   AND A.FLR_PLAN_YN = #{flrPlanYn}
+		 </if>
+		
+		<if test='getLocYn != null and getLocYn == "Y"'>
+		   AND C.NAME IS NULL
+		</if> 	
+		<if test='getRoomYn != null and getRoomYn == "Y"'>
+		   AND C.NAME IS NOT NULL
+		</if> 		 
+		
+		<choose>
+		<when test='getLocYn != null and getLocYn == "Y"'>
+		 ORDER BY A.ORD
+		</when>
+		<otherwise>
+		 ORDER BY A.ROOM_SEQ, A.ORD
+		</otherwise>
+		</choose>
+    </select>
+    
+    <select id="imgListByMap" parameterType="hashmap" resultType="Image">
+    	SELECT
+		       A.IMG_SEQ
+		     , A.FILE_PATH1
+		     , A.FILE_PATH2
+		     , A.LOC_SEQ
+		     , A.ROOM_SEQ
+		     , A.ORD
+		     , A.FLR_PLAN_YN
+		     , A.USE_YN
+		     , B.NAME AS LOC_NAME
+		     , C.NAME AS ROOM_NAME
+		  FROM IMAGE A LEFT OUTER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ AND B.USE_YN = 'Y'
+		               LEFT OUTER JOIN ROOM     C ON A.LOC_SEQ = C.LOC_SEQ AND A.ROOM_SEQ = C.ROOM_SEQ AND C.USE_YN = 'Y'
+		 WHERE A.USE_YN = 'Y'
+		<if test="locSeq != null">
+		   AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test="roomSeq != null">
+		   AND A.ROOM_SEQ = #{roomSeq}
+		</if> 		  
+		<if test="flrPlanYn != null">
+		   AND A.FLR_PLAN_YN = #{flrPlanYn}
+		</if>
+		<if test='getLocYn != null and getLocYn == "Y"'>
+		   AND C.NAME IS NULL
+		</if> 	
+		<if test='getRoomYn != null and getRoomYn == "Y"'>
+		   AND C.NAME IS NOT NULL
+		</if> 		 
+		
+		<choose>
+		<when test='getLocYn != null and getLocYn == "Y"'>
+		 ORDER BY A.ORD
+		</when>
+		<otherwise>
+		 ORDER BY A.ROOM_SEQ, A.ORD
+		</otherwise>
+		</choose>
+    </select>
+    
+    <update id="deleteImage">
+    	DELETE 
+    	  FROM IMAGE
+    	 WHERE IMG_SEQ = #{imgSeq} 
+    </update>
+    
+    <update id="changeImageOrd">
+    	UPDATE IMAGE
+    	   SET ORD = #{ord}
+    	 WHERE IMG_SEQ = #{imgSeq}
+    </update>
+    
+    <update id="changeImageOther">
+    	UPDATE IMAGE B
+    	   SET ORD = ORD+1
+    	 WHERE (B.LOC_SEQ, B.ROOM_SEQ, B.FLR_PLAN_YN)  IN (SELECT TB1.LOC_SEQ
+    	 														, TB1.ROOM_SEQ
+    	 														, TB1.FLR_PLAN_YN
+    	 													 FROM (
+    	 															SELECT A.LOC_SEQ
+									    	                     	  	 , A.ROOM_SEQ
+									    	                     		 , A.FLR_PLAN_YN 
+									    	                  		  FROM IMAGE A 
+									    	                 	     WHERE A.IMG_SEQ = #{imgSeq}
+									    	                 	  ) TB1
+									    	               )
+		   AND B.IMG_SEQ != #{imgSeq}									    	               
+    </update>
+    
+    <update id="updateImage">
+    	UPDATE IMAGE
+    	   SET UPD_DT = now()
+	    	<if test='updId != null and updId != ""'>
+			 , UPD_ID = #{updId}
+			</if>
+	    	<if test='useYn != null and useYn != ""'>
+			 , USE_YN = #{useYn}
+			</if>
+    	 WHERE 1=1 
+        <if test='roomSeq != null'>
+		   AND ROOM_SEQ = #{roomSeq}
+		</if>
+    </update>
+    
+    
+</mapper>

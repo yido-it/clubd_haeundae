@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.BookLogMapper">
+	<select id="getLogIndex" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(LOG_SEQ), 0) + 1 FROM BOOK_LOG
+	</select>
+	
+	<select id="selectLogList" parameterType="hashmap" resultType="Book">
+		SELECT BOOK_STRT_DT
+			 , BOOK_END_DT
+			 , BOOK_CD
+		     , B.NAME AS locNm
+		     , CMN_CD AS bookSttsCd
+		     , CMN_NM AS bookSttsNm
+		     , A.NAME
+			 , AES_DECRYPT(UNHEX(A.TEL), 'grape') TEL
+			 , AES_DECRYPT(UNHEX(EMAIL), 'grape') EMAIL
+		     , BOOK_AMT
+		     , DC_AMT
+		     , PAY_AMT
+		     , BOOK_REQ_DT
+		     , B.LOC_SEQ
+		     , B.BANK_NM
+		     , B.ACCNT_NO
+		     , B.CMPY_TP		
+		     , A.REG_DT 
+		     , A.REG_ID         
+		FROM BOOK_LOG A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ 
+						INNER JOIN CMN_CODE C ON A.BOOK_STTS_CD = C.CMN_CD
+		WHERE 1=1 
+		<if test='strtDt != null and strtDt != "" and endDt != null and endDt != ""'>
+		AND (BOOK_STRT_DT BETWEEN #{strtDt} AND #{endDt} OR BOOK_END_DT BETWEEN #{strtDt} AND #{endDt})
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND B.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+		<if test='name != null and name != ""'>
+		AND A.NAME = #{name}
+		</if>
+		<if test='email != null and email != ""'>
+		AND AES_DECRYPT(UNHEX(EMAIL), 'grape') = #{email}
+		</if>
+		ORDER BY BOOK_CD DESC
+    </select>
+
+    <insert id="insertLog">
+        INSERT INTO BOOK_LOG (
+              BOOK_CD
+            , LOG_SEQ
+            , LOC_SEQ
+            , NAME
+            , EMAIL
+            , TEL
+            , BOOK_STRT_DT
+            , BOOK_END_DT
+            , BOOK_REQ_DT
+            , BOOK_STTS_CD
+            , BOOK_AMT
+            , DC_AMT
+            , PAY_AMT
+            , REQ_CNTS
+            , REG_DT
+           	<if test='regId != null and regId != ""'>
+			, REG_ID
+			</if>
+        ) VALUES (
+              #{bookCd}
+            , #{logSeq}
+            , #{locSeq}
+            , #{name}
+            , HEX(AES_ENCRYPT(#{email}, 'grape'))
+            , HEX(AES_ENCRYPT(#{tel}, 'grape'))
+            , #{bookStrtDt}
+            , #{bookEndDt}
+            , CURRENT_TIMESTAMP
+            , #{bookSttsCd}
+            , #{bookAmt}
+            , #{dcAmt}
+            , #{payAmt}
+            , #{reqCnts}
+            , CURRENT_TIMESTAMP
+           	<if test='regId != null and regId != ""'>
+			, #{regId}
+			</if>
+        )
+    </insert> 
+ 
+</mapper>

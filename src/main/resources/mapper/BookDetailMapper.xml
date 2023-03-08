@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clubd_haeundae.repository.BookDetailMapper">
+	<select id="getBkDetailIdx" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(BOOK_SEQ), 0) + 1 FROM BOOK_DETAIL 
+	</select>
+	
+	<select id="getBkDetailGroupCd" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(MAX(BOOK_GROUP_CD), 0) + 1 FROM BOOK_DETAIL
+	</select>
+	
+	<!-- 가장 마지막 예약 설정 날짜 가져오기 -->
+	<select id="getMaxBookDt" parameterType="hashmap" resultType="hashmap">
+		SELECT MAX(BOOK_DT) AS LAST_BOOK_DT
+		  FROM BOOK_DETAIL
+		 WHERE OPEN_YN = 'O'
+		 <if test='locSeq != null and locSeq != ""'>
+		 AND LOC_SEQ = #{locSeq}
+		 </if>
+		 
+	</select>
+	
+	<select id="selectBookDetail" resultType="BookDetail">
+		SELECT A.LOC_SEQ 
+			, A.ROOM_SEQ
+			, A.BOOK_SEQ
+			, B.NAME AS LOCNM
+			, C.NAME AS ROOMNM
+			, A.BOOK_DT
+			, ROOM_STTS_CD
+			, CMN_NM AS ROOM_STTS_NM
+		    , A.STRT_TM
+		    , A.END_TM
+		    , FEE
+		    , OPEN_YN
+		    , A.BOOK_CD
+		    , A.BOOK_GROUP_CD
+		    , E.TEL
+		    , E.EMAIL
+		    , E.NAME
+		 FROM BOOK_DETAIL A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ
+							INNER JOIN ROOM     C ON A.ROOM_SEQ = C.ROOM_SEQ AND A.LOC_SEQ = C.LOC_SEQ
+							INNER JOIN CMN_CODE D ON A.ROOM_STTS_CD = D.CMN_CD
+							LEFT JOIN BOOK E ON A.BOOK_CD = E.BOOK_CD
+		WHERE 1=1 
+		<if test='bookSeq != null and bookSeq != ""'>
+		AND A.BOOK_SEQ = #{bookSeq}
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='bookDt != null'>
+		AND A.BOOK_DT = #{bookDt}
+		</if>
+		<if test='strtTm != null'>
+		AND A.STRT_TM = #{strtTm}
+		</if>
+		<if test='endTm != null'>
+		AND A.END_TM = #{endTm}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='bookGroupCd != null'>
+		AND A.BOOK_GROUP_CD = #{bookGroupCd}
+		</if>
+		<if test='roomSttsCd != null and roomSttsCd != ""'>
+		AND ROOM_STTS_CD = #{roomSttsCd}
+		</if>
+		<if test='openYn != null and openYn != ""'>
+		AND OPEN_YN = #{openYn}
+		</if>
+		 
+		ORDER BY A.BOOK_CD, A.BOOK_DT, A.STRT_TM   
+    </select>
+    
+    <select id="selectBookDetailByParam" parameterType="hashmap" resultType="BookDetail">
+		SELECT A.LOC_SEQ 
+			, A.ROOM_SEQ
+			, A.BOOK_SEQ
+			, B.NAME AS LOCNM
+			, C.NAME AS ROOMNM
+			, A.BOOK_DT
+			, ROOM_STTS_CD
+			, CMN_NM AS ROOM_STTS_NM
+		    , A.STRT_TM
+		    , A.END_TM
+		    , FEE
+		    , OPEN_YN
+		    , A.BOOK_CD
+		    , A.BOOK_GROUP_CD
+		    , E.TEL
+		    , E.EMAIL
+		    , E.NAME
+		 FROM BOOK_DETAIL A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ
+							INNER JOIN ROOM     C ON A.ROOM_SEQ = C.ROOM_SEQ AND A.LOC_SEQ = C.LOC_SEQ
+							INNER JOIN CMN_CODE D ON A.ROOM_STTS_CD = D.CMN_CD
+							LEFT JOIN BOOK E ON A.BOOK_CD = E.BOOK_CD
+		WHERE 1=1 
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='searchStrtDt != null and searchStrtDt != "" and searchEndDt != null and searchEndDt != ""'>
+		AND A.BOOK_DT BETWEEN #{searchStrtDt} AND #{searchEndDt} 
+		</if>
+		<if test='searchType != null and searchType == "Y"'>
+		AND A.BOOK_CD IS NOT NULL
+		</if>
+		<if test='searchType != null and searchType == "N"'>
+		AND A.BOOK_CD IS NULL
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+
+		ORDER BY A.BOOK_CD, A.BOOK_DT, A.STRT_TM   
+    </select>
+	
+	<!-- 예약 상세 결과 -->
+	<select id="selectBookResult" parameterType="hashmap" resultType="hashmap">
+		SELECT A.BOOK_CD
+			  , A.BOOK_GROUP_CD
+			  , B.NAME
+			  , C.NAME AS ROOM_NM 
+			  , MIN(A.BOOK_DT) AS STRT_DT
+			  , MAX(A.BOOK_DT) AS END_DT
+			  , MIN(A.STRT_TM) AS STRT_TM
+			  , MAX(A.END_TM) AS END_TM
+			  , SUM(FEE) AS FEE
+			  , E.FILE_PATH1 AS ROOM_IMG
+		 FROM BOOK_DETAIL A INNER JOIN BOOK B ON A.BOOK_CD = B.BOOK_CD 
+						    LEFT JOIN ROOM C ON A.ROOM_SEQ = C.ROOM_SEQ 
+						    LEFT JOIN CMN_CODE D ON B.BOOK_STTS_CD = D.CMN_CD AND D.USE_YN = 'Y' 
+		                    LEFT JOIN IMAGE E ON A.ROOM_SEQ = E.ROOM_SEQ AND E.USE_YN = 'Y' AND (REPR_YN = 'Y' OR E.ORD = 0)
+		WHERE 1=1 
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='name != null and name != ""'>
+		AND B.NAME = #{name}
+		</if>
+		<if test='email != null and email != ""'>
+		AND AES_DECRYPT(UNHEX(B.EMAIL), 'grape') = #{email}
+		</if>
+		GROUP BY A.BOOK_GROUP_CD, C.NAME, E.FILE_PATH1
+		ORDER BY A.BOOK_GROUP_CD
+    </select>
+    
+	<!-- 예약페이지에 표출할 예약타임조회 -->
+	<select id="bookTimeTable" resultType="BookDetail" parameterType="hashmap" >
+		SELECT STRT_TM
+			, END_TM
+		    , ROOM_STTS_CD
+		    , COUNT(*) AS GROUP_BY_CNT
+		 FROM BOOK_DETAIL 
+		WHERE 1=1 
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='strtDt != null and endDt != null'>
+		AND BOOK_DT BETWEEN #{strtDt} AND #{endDt}
+		</if>
+		AND OPEN_YN = 'O'
+		GROUP BY STRT_TM, END_TM, ROOM_STTS_CD
+		ORDER BY STRT_TM;
+    </select>
+    
+	<!-- 예약 불가능한 시간대 조회 -->
+	<select id="bookNotAvailableTime" resultType="BookDetail" parameterType="hashmap" >
+		SELECT LOC_SEQ 
+			 , ROOM_SEQ
+			 , BOOK_DT
+			 , ROOM_STTS_CD
+			 , CMN_NM AS ROOM_STTS_NM
+		     , STRT_TM
+		     , END_TM
+		 FROM BOOK_DETAIL A INNER JOIN CMN_CODE B ON A.ROOM_STTS_CD = B.CMN_CD AND B.USE_YN = 'Y'
+		WHERE 1=1 
+		<if test='locSeq != null and locSeq != ""'>
+		AND LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='strtDt != null and endDt != null'>
+		AND BOOK_DT BETWEEN #{strtDt} AND #{endDt}
+		</if>
+		<if test='strtTm != null and endTm != null'>
+		AND STRT_TM BETWEEN #{strtTm} AND #{endTm}
+		</if>
+		<if test='dtList != null'> <!-- 제외할 날짜가 여러개인경우 -->
+		AND BOOK_DT NOT IN 
+			<foreach collection="dtList" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+			</foreach>
+		</if>
+		<if test='excludedDate != null and excludedDate != ""'> <!-- 제외할 날짜가 하루인 경우 -->
+		AND BOOK_DT != #{excludedDate} 
+		</if>
+		AND ROOM_STTS_CD NOT IN ('400002')
+		AND OPEN_YN = 'O'
+		ORDER BY BOOK_DT, STRT_TM
+    </select>
+	
+	<select id="getBookDetail" resultType="BookDetail">
+		SELECT A.LOC_SEQ 
+			, A.ROOM_SEQ
+			, A.BOOK_SEQ
+			, B.NAME AS LOCNM
+			, C.NAME AS ROOMNM
+			, BOOK_DT
+		    , A.STRT_TM
+		    , A.END_TM
+		    , FEE
+		    , BOOK_CD
+		    , BOOK_GROUP_CD
+		    , OPEN_YN
+		 FROM BOOK_DETAIL A INNER JOIN LOCATION B ON A.LOC_SEQ = B.LOC_SEQ
+							INNER JOIN ROOM     C ON A.ROOM_SEQ = C.ROOM_SEQ AND A.LOC_SEQ = C.LOC_SEQ
+		WHERE 1=1 
+		<if test='bookSeq != null and bookSeq != ""'>
+		AND A.BOOK_SEQ = #{bookSeq}
+		</if>
+		<if test='locSeq != null and locSeq != ""'>
+		AND A.LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND A.ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='bookDt != null'>
+		AND BOOK_DT = #{bookDt}
+		</if>
+		<if test='strtTm != null'>
+		AND A.STRT_TM = #{strtTm}
+		</if>
+		<if test='endTm != null'>
+		AND A.END_TM = #{endTm}
+		</if>
+		<if test='bookCd != null and bookCd != ""'>
+		AND A.BOOK_CD = #{bookCd}
+		</if>
+		<if test='openYn != null and openYn != ""'>
+		AND A.OPEN_YN = 'O'
+		</if>
+		
+    </select>
+    
+    <!-- 1개의 예약에 대한 가장빠른예약시작일자,가장늦은종료일자 조회 -->
+	<select id="getBookDtByBookCd" parameterType="hashmap" resultType="hashmap">
+		SELECT MIN(BOOK_DT) AS BOOK_STRT_DT
+		  	 , MAX(BOOK_DT) AS BOOK_END_DT
+		  FROM BOOK_DETAIL
+		 WHERE 1=1 
+		<if test='bookCd != null and bookCd != ""'>
+		AND BOOK_CD = #{bookCd}
+		</if>
+    </select>
+	
+    <!-- 예약설정 데이터 수정 -->
+    <update id="updateBookDetail">
+        UPDATE BOOK_DETAIL
+           SET UPD_DT    = CURRENT_TIMESTAMP
+             <if test='updId != null and updId != ""'>
+			 , UPD_ID    = #{updId}
+			 </if>
+             <if test='bookCd != null and bookCd != ""'>
+			 , BOOK_CD = #{bookCd}
+			 </if>
+             <if test='bookGroupCd != null and bookGroupCd != ""'>
+			 , BOOK_GROUP_CD = #{bookGroupCd}
+			 </if>
+             <if test='strtTm != null'>
+			 , STRT_TM = #{strtTm}
+			 </if>
+             <if test='endTm != null'>
+			 , END_TM = #{endTm}
+			 </if>
+             <if test='fee != null'>
+			 , FEE = #{fee}
+			 </if>
+             <if test='roomSttsCd != null and roomSttsCd != ""'>
+			 , ROOM_STTS_CD = #{roomSttsCd}
+			 </if>
+             <if test='openYn != null and openYn != ""'>
+			 , OPEN_YN = #{openYn}
+			 </if>
+        WHERE 1=1
+        <if test='bookDt != null'>
+		AND BOOK_DT = #{bookDt}
+		</if>
+        <if test='locSeq != null and locSeq != ""'>
+		AND LOC_SEQ = #{locSeq}
+		</if>
+        <if test='roomSeq != null and roomSeq != ""'>
+		 AND ROOM_SEQ = #{roomSeq}
+		</if>
+        <if test='bookSeq != null and bookSeq != ""'>
+		AND BOOK_SEQ = #{bookSeq}
+		</if>
+    </update>
+    
+    <!-- 예약설정 데이터 수정 -->
+    <update id="updateBookDetailByMap" parameterType="hashmap" >
+        UPDATE BOOK_DETAIL
+           SET UPD_DT    = CURRENT_TIMESTAMP
+             <if test='updId != null and updId != ""'>
+			 , UPD_ID    = #{updId}
+			 </if>
+             <if test='updBookCd != null and updBookCd != ""'>
+			 , BOOK_CD = #{updBookCd}
+			 </if>
+             <if test='updBookGroupCd != null and updBookGroupCd != ""'>
+			 , BOOK_GROUP_CD = #{updBookGroupCd}
+			 </if>
+             <if test='updBookCdNull != null and updBookCdNull == "Y"'>
+			 , BOOK_CD = NULL
+			 </if>
+             <if test='updBookGroupCdNull != null and updBookGroupCdNull == "Y"'>
+			 , BOOK_GROUP_CD = NULL
+			 </if>
+             <if test='roomSttsCd != null and roomSttsCd != ""'>
+			 , ROOM_STTS_CD = #{roomSttsCd}
+			 </if>
+             <if test='fee != null and fee != ""'>
+			 , FEE = #{fee}
+			 </if>
+        WHERE 1=1
+        <if test='oriBookCd != null and oriBookCd != ""'>
+		AND BOOK_CD = #{oriBookCd}
+		</if>
+        <if test='bookSeq != null and bookSeq != ""'>
+		AND BOOK_SEQ = #{bookSeq}
+		</if>
+        <if test='bookDt != null'>
+		AND BOOK_Dt = #{bookDt}
+		</if>
+        <if test='strtTm != null'>
+		AND STRT_TM = #{strtTm}
+		</if>
+        <if test='locSeq != null and locSeq != ""'>
+		AND LOC_SEQ = #{locSeq}
+		</if>
+        <if test='roomSeq != null and roomSeq != ""'>
+		AND ROOM_SEQ = #{roomSeq}
+		</if>
+        <if test='gtBookDt != null'>
+		AND BOOK_Dt >= #{gtBookDt}
+		</if>
+        <if test='bookCdIsNull != null and bookCdIsNull == "Y"'>
+		AND BOOK_CD IS NULL
+		</if>
+    </update>
+
+    <!-- 예약설정 데이터 전체오픈 -->
+    <update id="updateOpenAll">
+        UPDATE BOOK_DETAIL
+           SET UPD_DT    = CURRENT_TIMESTAMP
+             , UPD_ID    = #{updId}
+             , OPEN_YN   = 'O'
+        WHERE 1=1
+ 		<if test='locSeq != null and locSeq != ""'>
+		AND LOC_SEQ = #{locSeq}
+		</if>
+		<if test='roomSeq != null and roomSeq != ""'>
+		AND ROOM_SEQ = #{roomSeq}
+		</if>
+		<if test='bookDt != null'>
+		AND BOOK_DT = #{bookDt}
+		</if>         
+    </update>
+    
+    <!-- 예약설정 데이터 등록 -->
+    <insert id="insertBookDetail">
+        INSERT INTO BOOK_DETAIL (
+              BOOK_DT
+            , LOC_SEQ
+            , ROOM_SEQ
+            , BOOK_SEQ
+            , STRT_TM
+            , END_TM
+            , FEE
+            , ROOM_STTS_CD
+            , OPEN_YN
+            , REG_DT
+            , REG_ID
+        ) VALUES (
+              #{bookDt}
+            , #{locSeq}
+            , #{roomSeq}
+            , #{bookSeq}
+            , #{strtTm}
+            , #{endTm}
+            , #{fee}
+            , '400002'
+            , #{openYn}
+            , CURRENT_TIMESTAMP
+            , #{regId}
+        )
+    </insert> 
+    
+    <!-- 예약설정 데이터 삭제 -->
+    <update id="deleteBookDetail">
+        DELETE
+          FROM BOOK_DETAIL
+         WHERE 1=1 
+        <if test='bookDt != null'>
+		  AND BOOK_DT = #{bookDt}
+		</if>
+        <if test='locSeq != null'>
+		  AND LOC_SEQ = #{locSeq}
+		</if>    
+        <if test='roomSeq != null'>
+		  AND ROOM_SEQ = #{roomSeq}
+		</if>   
+        <if test='bookSeq != null'>
+		  AND BOOK_SEQ = #{bookSeq}
+		</if>         
+    </update>
+    
+</mapper>
