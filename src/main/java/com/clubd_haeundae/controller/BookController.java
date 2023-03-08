@@ -1379,27 +1379,4 @@ public class BookController {
 		return isClosed;
 	}
 	
-	@RequestMapping(value = "/rptEstimate/{bookCd}")
-	public String rptAplc(HttpServletRequest req, Model model, HttpServletRequest request, HttpServletResponse response, @PathVariable String bookCd){
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		
-		Book book = new Book();
-		book.setBookCd(bookCd);
-		book = bookService.getBook(book);
-		Map<String, Object> param = new HashMap<>();
-		param.put("bookCd", bookCd); 
-		
-		String filename = "그레이프견적서_" + book.getLocNm() + "_" + book.getName() + ".pdf";
-
-		String reportName = "rptEstimate";
-
-		if(ComUtil.makeReportPdf(filename, reportName, param, request)) {
-			model.addAttribute("result",  true);
-		} else {
-			model.addAttribute("result",  false);
-		}
-		model.addAttribute("type", "pdf");
-		model.addAttribute("fileName",  filename);
-		return "/popReport";
-	}
 } 	
