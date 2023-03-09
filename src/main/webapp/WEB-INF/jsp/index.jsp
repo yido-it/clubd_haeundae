@@ -5,6 +5,11 @@
 
 <body>
 <jsp:include page="common/navigation.jsp" />
+ <link rel="stylesheet" href="/vendor/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/vendor/jquery-ui.min.css">
+
+
+    
 <!-- ======= 슬라이드메인 ======= -->
 <div class="intro intro-carousel">
 <div id="carousel" class="owl-carousel owl-theme">
@@ -88,8 +93,7 @@
 				</div>
 			</div>
 			<p class="intro-title-top font_eng">
-								Grape Lounge  
-								</p>
+								Grape Lounge  </p>
 		</div>
 	</div>
 
@@ -97,6 +101,49 @@
 </div>
 </div>
 <!-- End  -->
+
+
+
+<!-- 달력 --> 
+<section class="div_date" style="background:url(/img/main/date_bg.jpg) no-repeat 35% 50%;background-size: cover;padding:100px">
+<div class="main">	 
+   <div class="container">
+            <form id="booking-form" class="booking-form" method="POST">
+                <div class="form-group">
+                    <div class="form-destination">
+                        <label for="destination">SPOT</label>
+                        <input type="text" id="destination" name="destination" placeholder="CLUBD Haeundae" disabled/>
+                    </div>
+                    <div class="form-date-from form-icon">
+                        <label for="date_from">DATE</label>
+                        <input type="text" id="date_from" class="date_from" placeholder="날짜선택" />
+                    </div>
+                  
+                    <div class="form-quantity">
+                        <label for="quantity">Adult</label>
+                        <span class="modify-qty plus" onClick="Tang1()"><i class="fa-solid fa-caret-up"></i></span>
+                        <input type="number" name="quantity" id="quantity" value="0" min="0" class="nput-text qty text">
+                        <span class="modify-qty minus" onClick="Giam1()"><i class="fa-solid fa-caret-down"></i></span>
+                    </div>
+
+                    <div class="form-quantity">
+                        <label for="quantity">Children</label>
+                        <span class="modify-qty plus" onClick="Upup()"><i class="fa-solid fa-caret-up"></i></span>
+                        <input type="number" name="quantity2" id="quantity2" value="0" min="0" class="nput-text qty text">
+                        <span class="modify-qty minus" onClick="Down()"><i class="fa-solid fa-caret-down"></i></span>
+                    </div>
+
+                    <div class="form-submit">
+                        <input type="submit" id="submit" class="submit" value="Search" />
+                    </div>
+                </div>
+            </form>
+        </div>
+       </div>
+</section>
+
+
+
 
 <main id="main">  
 <!-- =======지점 location ======= -->
@@ -106,7 +153,7 @@
 		<div class="col-md-12">
 			<div class="title-wrap d-flex justify-content-between">
 				<div class="title-box">
-					<h2 class="title-a">LOCATIONS</h2>
+					<h2 class="title-a">EVENT</h2>
 				</div>
 				<div class="title-link">
 					<a href="/loc/locMain">전체보기
@@ -119,7 +166,7 @@
 	
 	
 
-	<!--pc지점-->
+	<!--event-->
 	<div id="property-carousel" style="" class="owl-carousel owl-theme overflow aos-init aos-animate pc_location" data-aos="fade-up" data-aos-delay >
 	    <c:forEach items="${locs}" var="list">
 			<div class="carousel-item-b">
@@ -360,47 +407,6 @@
 	</div>
 </section>
 
-<!-- =======   하단컨텐츠 ======= -->
-<!-- <section class="section-testimonials section-t8 nav-arrow-a">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="title-wrap d-flex justify-content-between">
-					<div class="title-box">
-						<h2 class="title-a">그레이프 Vision</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="testimonial-carousel" class="owl-carousel owl-arrow">
-			<div class="carousel-item-a">
-				<div class="testimonials-box">
-					<div class="row">
-						<div class="col-sm-12 col-md-6">
-							<div class="testimonial-img">
-								<img src="/img/main.jpg" alt="" class="img-fluid">
-							</div>
-						</div>
-						
-						<div class="col-sm-12 col-md-6">
-						
-							<div class="testimonials-content">
-								<p class="testimonial-text">
-								Grape Lounge는 커피를 파는 곳이 아닌 '공간'을 판매하는 곳입니다.<br/>
-								포도알이 모여 포도송이를 이루듯이 멤버들이 '독립적'이지만 서로 '유기적'으로 연결되어 행복하고 풍성한 삶을 할 수 있는 커뮤니티 공간 서비스를 추구합니다.
-								</p>
-							</div>
-							<div class="testimonial-author-box">
-						 		<h5 class="testimonial-author">GRAPE VISION</h5>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->
 
 <!-- End  -->
 
@@ -433,7 +439,7 @@
 
 
 <!--팝업--> 
-<div class="layer_popup" style="" id="layer_pop"> 
+<div class="layer_popup" style="display:none" id="layer_pop"> 
 	<div class="">
 		<!--pc에서보이는이미지 -->
 		<!-- <a class="pc_popup" href="" target="_blank">  -->
@@ -458,6 +464,7 @@
 <script> 
 	AOS.init(); // 자바스크립트로 init()을 해야 동작한다.
 </script>
+
 
 <!--swiper섬네일 옵션-->
 <script>
@@ -520,16 +527,22 @@ function fnQrScan(){
  
 </script> 
 
+
+
+
+
 <script type="text/javascript">
 	$('#close').on("click", function() {
 		$('#layer_pop').hide();
 	});
 	
-	
 </script>
-
-
-
+  
 </body>
+
+  
+    <script src="/vendor/jquery.min.js"></script>
+    <script src="/vendor/jquery-ui.min.js"></script>
+    <script src="/vendor/main.js"></script>
 
 </html>
