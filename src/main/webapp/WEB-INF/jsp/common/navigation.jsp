@@ -24,49 +24,82 @@
 		
 		<div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
 			<ul class="navbar-nav">
-				<!-- LOCATIONS -->
+				<!-- 예약하기 -->
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"  data-toggle="dropdown">
-						LOCATIONS
+						예약하기
 					</a>
-					<!-- LOCATIONS 하위메뉴 -->
+					<!-- 예약하기 하위메뉴 -->
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="/loc/locMain">모든지점</a>
-						
-						<c:forEach items="${locs}" var="loc">
-							<a class="dropdown-item" href="/loc/locDetail/${loc.locSeq}">${loc.name}</a>
-						</c:forEach>
+						<a class="dropdown-item" href="/loc/locMain">예약하기</a>
+					</div>
+					<!-- 이용가이드 하위메뉴 -->
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/reservation/reservation">예약하기</a>            
 					</div>
 				</li>
 				
-				<!-- MEETINGS & EVENTS -->
+				<!-- 이용가이드 -->
 				<li class="nav-item">
-					<a class="nav-link" href="/meeting">OUR SERVICE</a>
-				</li>
-				
-				<!-- ABOUT US -->
-				<li class="nav-item">
-				<a class="nav-link" href="/about">ABOUT US</a>
-				</li>
-				
-				<!-- RESERVATION -->
-				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"  data-toggle="dropdown">
-						RESERVATION
+						이용가이드
 					</a>
-					
+					<!-- 이용가이드 하위메뉴 -->
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/guide/charge">이용요금</a>
+						<a class="dropdown-item" href="/guide/service">운영/운휴정보</a> 
+						<a class="dropdown-item" href="/guide/location">교통/주차안내</a>
+						<a class="dropdown-item" href="/guide/map">가이드맵</a>               
+					</div>
+				</li>
+				
+				<!-- 즐길거리 -->
+				<li class="nav-item">
+					<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"  data-toggle="dropdown">
+						즐길거리
+					</a>
 					<!-- RESERVATION 하위메뉴 -->
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="/loc/locMain">공간 예약</a>
-						<a class="dropdown-item" href="/bookConfirm">예약확인/취소</a> 
-						<a class="dropdown-item" href="/charge">비용 안내</a>
-						<a class="dropdown-item" href="/tour/tourMain">투어 신청</a>               
+						<a class="dropdown-item" href="/enjoy/infinity">인피니티풀</a>
+						<a class="dropdown-item" href="/enjoy/kids">키즈존</a> 
+						<a class="dropdown-item" href="/enjoy/food">푸드코드</a>
+						<a class="dropdown-item" href="/enjoy/spring">노천탕</a>               
+					</div>
+				</li>
+				
+				<!-- 소통공간 -->
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"  data-toggle="dropdown">
+						소통공간
+					</a>
+					
+					<!-- 소통공간 하위메뉴 -->
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/customer/notice">공지사항</a>
+						<a class="dropdown-item" href="/customer/event">이벤트</a>            
 					</div>
 				</li>
 				<!-- <li class="nav-item">
 				<a class="nav-link" href="blog-grid.html">APP download </a>
 				</li> --> 
 			</ul>
-		</div> 
+		</div>
+		<div class="topRight">
+
+        <!-- 예약/날씨 -->
+		<div class="gnbUtil">
+			<a href="http://www.pic.co.kr/reservation/" class="reservBtn">RESERVATION</a>
+		</div>
+		<div class="weatherBox">
+			<div class="weatherWrap">
+				<dl>
+					<dt>BUSAN</dt>
+					<dd class="wicon"><img src="http://www.pic.co.kr/img/ico/03d.svg" alt="Clouds"></dd>
+					<dd class="temperature">30.3°c</dd>
+				</dl>
+			</div>
+		</div>
+		
+     </div>
 	</div>
 </nav>
