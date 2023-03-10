@@ -31,7 +31,7 @@
 							<jsp:include page="common/intro.jsp" />
 							
 							<div class="title-box-d">
-								<h3 class="title-d">그레이프는 공유라운지를 기반으로 한 오피스 라이프스타일 플랫폼입니다. </h3>
+								<h3 class="title-d">그레이프는 공유라운지    를 기반으로 한 오피스 라이프스타일 플랫폼입니다. </h3>
 							</div> 
 							<p>
 								<br/>오피스 Amenity(편의)공간에 컨텐츠/서비스/Tech(기술)를 접목해 시설 및 서비스를 기획, 운영함으로써,
