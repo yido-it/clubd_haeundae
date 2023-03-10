@@ -71,7 +71,7 @@
 					</div>
 				</div>
 			</div>
-			<h2  class="intro-title-top font_eng">SWITCH 22 by Grape</h2>
+			<!-- <h2  class="intro-title-top font_eng">SWITCH 22 by Grape</h2> -->
 		</div>
 	</div>
 	
@@ -116,8 +116,7 @@
 					</div>
 				</div>
 			</div>
-			<p class="intro-title-top font_eng">
-								Grape Lounge  </p>
+			<!-- <p class="intro-title-top font_eng">Grape Lounge  </p> -->
 		</div>
 	</div>
 
@@ -129,11 +128,38 @@
 
 
 
+	
+<!-- 파도 -->
+<div class="header_wave">
+	<div style="">
+	<svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+	<defs>
+	<path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+	</defs>
+	<g class="parallax">
+	<use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"></use>
+	<use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"></use>
+	<!-- <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"></use> -->
+	<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"></use>
+	</g>
+	</svg>
+	</div>
+</div>
+
+
+
+
+
+
+
 <!-- 달력아래 컨텐츠 --> 
 <section class="div_date" style="">
 	<div class="container aos-init aos-animate service">
 		
+		
 	
+		
+		
 		 <img src="/img/main/oasis.png" class="img-d img-fluid">
 		 <p class="tc fs22">Club D Oasis는 사막 한 가운데, 갈증 속에서 만나는 오아시스처럼<br/>
 	바쁜 일상에 치인 우리에게 휴식을 주는 공간이 되고자 합니다.
@@ -175,7 +201,7 @@
 			<div class="carousel-item-b">
 				<div class="card-box-a card-shadow">
 					<div class="img-box-a">
-						<img src="/store/${list.filePath1}" onerror="this.src='/img/no_image.png';" alt="" class="img-a img-fluid img-loc-list">
+						<img src="/store/${list.filePath1}" onerror="this.src='/img/event/event_ex.jpg';" alt="" class="img-a img-fluid img-loc-list">
 					</div>
 					<div class="card-overlay location">
 						<div class="card-overlay-a-content">
@@ -187,8 +213,7 @@
 							</div>
 							<div class="card-body-a">
 								<div class="price-box d-flex" >
-									<span class="price-a"  onclick="location.href='/book/bookMain/${list.locSeq}/0'">예약하기</span>
-									<span class="price-a ml-2"  onclick="location.href='/loc/locDetail/${list.locSeq}'">자세히보기</span>
+										<span class="price-a "  onclick="location.href='/loc/locDetail/${list.locSeq}'">자세히보기</span>
 								</div> 
 							</div>							
 						</div>
@@ -289,7 +314,7 @@
 			<div class="col-md-12">
 				<div class="title-wrap d-flex justify-content-between">
 					<div class="title-box" data-aos="fade-up"  data-aos-duration="2000" >
-						<h2 class="title-a">EXPERIENCE</h2>
+						<h2 class="title-a">FACILITY</h2>
 					</div>
 				</div>
 			</div>
@@ -300,9 +325,9 @@
 			<div class="col-md-6 col-lg-6 section-md-t3"  data-aos="fade-up">
 				<div class="row">
 					<div class="col-sm-12">
-						<img src="/img/main/ex_1.jpg" alt="" class="img-d img-fluid">
+						<img src="/img/main/ex_4.jpg" alt="" class="img-d img-fluid">
 						<div class="title-box-d">
-							<h3 class="title-d">Hospitality</h3>
+							<h3 class="title-d">DYNAMIC ZONE</h3>
 						</div>
 					</div>
 				</div>
@@ -324,7 +349,7 @@
 					<div class="col-sm-12">
 						<img src="/img/main/ex_2.jpg" alt="" class="img-d img-fluid">
 						<div class="title-box-d">
-						<h3 class="title-d">Tech</h3>
+						<h3 class="title-d">MEGA SLIDE ZONE</h3>
 						</div>
 					</div>
 				</div>
@@ -346,7 +371,7 @@
 					<div class="col-sm-12">
 						<img src="/img/main/ex_3.jpg" alt="" class="img-d img-fluid">
 						<div class="title-box-d">
-							<h3 class="title-d">Design and Space</h3>
+							<h3 class="title-d">Infinity Pool</h3>
 						</div>
 					</div>
 				</div>
@@ -362,9 +387,9 @@
 			<div class="col-md-6 col-lg-6 section-md-t3"  data-aos="fade-up" data-aos-delay="100">
 				<div class="row">
 					<div class="col-sm-12">
-						<img src="/img/main/ex_4.jpg" alt="" class="img-d img-fluid">
+						<img src="/img/main/ex_1.jpg" alt="" class="img-d img-fluid">
 						<div class="title-box-d">
-							<h3 class="title-d">Contents  </h3>
+							<h3 class="title-d">Mood board </h3>
 						</div>
 					</div>
 				</div>
@@ -411,6 +436,8 @@
 </section>
 
 
+
+
 <!-- End  -->
 
 <div class="cont_inquire" style="position: relative;bottom: -60px; ">
@@ -433,9 +460,17 @@
         </div>
 		<span class="bg_dimmed"></span>
 	</a>
-</div>
-
+	 
 <div style="clear:both"></div>
+
+<!-- 파도 -->
+<!-- <div class="ocean">
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+</div> -->
+
+
  
 </main>
 <!-- End #main -->
@@ -528,11 +563,7 @@ function fnQrScan(){
 }
  
 </script> 
-
-
-
-
-
+ 
 <script type="text/javascript">
 	$('#close').on("click", function() {
 		$('#layer_pop').hide();

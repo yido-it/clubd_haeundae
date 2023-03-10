@@ -41,7 +41,7 @@
 
 
 body {
-  font-family:'S-Core','Montserrat', 'Noto Sans KR', 'Noto Sans Korean', Malgun Gothic, "맑은고딕", arial, sans-serif;
+  font-family:'Montserrat','S-Core', 'Noto Sans KR', 'Noto Sans Korean', Malgun Gothic, "맑은고딕", arial, sans-serif;
   color: #555555;
 }
 .bold{font-weight:bold}
@@ -906,7 +906,7 @@ ul.nav.nav-pills-a{border-bottom:2px solid #d7d7d7}
 }
 .intro .carousel-item-a {
   position: relative;
-  height: 90vh;
+  height: 98vh;
 }/*메인화면 이미지 크기*/
  
 
@@ -1020,9 +1020,9 @@ ul.nav.nav-pills-a{border-bottom:2px solid #d7d7d7}
 
 @media (min-width: 992px) {
   .intro .intro-title {
-    font-size: 3.2rem;text-shadow: 1px 1px 1px #222;
+    font-size: 3.8rem;text-shadow: 1px 1px 1px #222;
     word-break: keep-all;
-      text-align:center
+      text-align:center;letter-spacing: -3px;
   }
 }
 
@@ -2568,7 +2568,7 @@ figure { margin: 0; }
     width: 100%;
     display: flex;
     padding: 22px 40px 22px 40px;
-    margin-top: 200px; }
+    margin-top: 15rem; }
   
 .container_date {
   width: 960px;
@@ -2721,8 +2721,150 @@ label {
 
 
 
+ /*파도*/ 
+.ocean { 
+  height: 5%;
+  width:100%;
+  position:absolute;
+  bottom:0;
+  left:0;
+  background: #015871;
+  z-index:999;
+}
+
+.wave {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+  position: absolute;
+  top: -198px;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+  top: -175px;
+  animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+  opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0,-25px,0);
+  }
+  50% {
+    transform: translate3d(0,5px,0);
+  }
+}
 
 
+
+
+
+
+
+
+
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+
+.header_wave {
+  position:relative;
+  text-align:center;
+  color:white;
+}
+.logo {
+  width:50px;
+  fill:white;
+  padding-right:15px;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.inner-header {
+  height:65vh;
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.waves {
+  position:relative;
+  width: 100%;
+  height:15vh;
+  margin-bottom:-7px; /*Fix for safari gap*/
+  min-height:100px;
+  max-height:150px;
+/*       width: 1920px; */
+    z-index: 99999;
+    top: -54px;
+}
+
+.content {
+  position:relative;
+  height:20vh;
+  text-align:center;
+  background-color: white;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+  h1 {
+    font-size:24px;
+  }
+}
 
 
 
