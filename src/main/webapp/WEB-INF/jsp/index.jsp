@@ -11,103 +11,10 @@
 
     
 <!-- ======= 슬라이드메인 ======= -->
-<div class="intro intro-carousel">
-<div id="carousel" class="owl-carousel owl-theme">
-	
-	<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/main.jpg)">
-		<div class="overlay overlay-a"></div>
-		<div class="intro-content display-table">
-			<div class="table-cell">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-10">
-							<div class="intro-body">
-								<h1 class="intro-title mb-4 animate__zoomIn animate__animated" style="">
-									공유라운지 기반의 <br>
-									<span class="color-b">오피스 라이프스타일</span> 플랫폼
-									<!-- <img src="/img/logo_white.png"class="" style="width:150px"> -->
-								</h1>
-							
-								
-									<p class="intro-subtitle intro-price">
-									<a href="loc/locMain"><span class="price-a">그레이프 지점찾기</span></a>
-								</p>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<h2  class="intro-title-top font_eng">SWITCH 22 by Grape</h2>
-		</div>
-	</div>
-	
-<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/main3.jpg)" >
-		<div class="overlay overlay-a"></div>
-		<div class="intro-content display-table">
-			<div class="table-cell">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-10">
-							<div class="intro-body">
-								<h1 class="intro-title mb-4">
-									밀레니얼 세대를 위한 
-									<span class="color-b"> 공유라운지</span> 
- <!--  <img src="/img/logo_white.png"class="" style="width:150px;margin-top:10px"> -->
-								</h1>
-								
-								<p class="intro-subtitle intro-price">
-									<a href="about"><span class="price-a">자세히보기</span></a>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<h2 style="" class="intro-title-top font_eng">SOL Lounge with Grape</h2>
-		</div>
-	</div>
-	 
-	<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/slide_3.jpg)">
-		<div class="overlay overlay-a"></div>
-		<div class="intro-content display-table">
-			<div class="table-cell">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-10">
-							<div class="intro-body">
-								<h1 class="intro-title mb-4">
-									<!-- <span class="color-b">
-									 <img src="/img/logo2_white.png"class="" style="width:150px">
-									 </span>   -->
-									넓고 쾌적한 공간과 <span class="color-b">편의 시설</span>
-								
-								</h1>
-								
-								<p class="intro-subtitle intro-price">
-									<a href="about"><span class="price-a">자세히보기</span></a>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<p class="intro-title-top font_eng">
-								Grape Lounge  </p>
-		</div>
-	</div>
+<section class="">
 
-	  
-</div>
-</div>
-<!-- End  -->
-
-
-
-<!-- 달력 --> 
-<section class="div_date" style="background:url(/img/main/date_bg.jpg) no-repeat 35% 50%;background-size: cover;padding:100px">
 <div class="main">	 
-   <div class="container">
+   <div class="container_date">
             <form id="booking-form" class="booking-form" method="POST">
                 <div class="form-group">
                     <div class="form-destination">
@@ -134,12 +41,108 @@
                     </div>
 
                     <div class="form-submit">
-                        <input type="submit" id="submit" class="submit" value="Search" />
+                        <input type="submit" id="submit" class="submit" value="검색" />
                     </div>
                 </div>
             </form>
         </div>
        </div>
+       
+       
+<div class="intro intro-carousel">
+<div id="carousel" class="owl-carousel owl-theme">
+	
+	<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/main/date_bg.jpg)">
+		<div class="overlay overlay-a"></div>
+		<div class="intro-content display-table">
+			<div class="table-cell">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="intro-body">
+								<h1 class="intro-title mb-4 animate__fadeInUp animate__animated" style="">
+									Exciting PIC 
+									<span class="color-b">CLUBD OASIS</span>
+									<!-- <img src="/img/logo_white.png"class="" style="width:150px"> -->
+								</h1>
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2  class="intro-title-top font_eng">SWITCH 22 by Grape</h2>
+		</div>
+	</div>
+	
+<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/main/date_bg2.jpg)" >
+		<div class="overlay overlay-a"></div>
+		<div class="intro-content display-table">
+			<div class="table-cell">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="intro-body">
+								<h1 class="intro-title  mb-4  animate__animated">
+								Kid Friendly PIC
+									<span class="color-b">CLUBD OASIS</span>
+								</h1>
+								 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2 style="" class="intro-title-top font_eng">SOL Lounge with Grape</h2>
+		</div>
+	</div>
+	 
+	<div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/main/date_bg3.jpg)">
+		<div class="overlay overlay-a"></div>
+		<div class="intro-content display-table">
+			<div class="table-cell">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="intro-body">
+								<h1 class="intro-title  mb-4  animate__animated"> 
+									Luxury PIC 
+									<span class="color-b animate__animated animate__delay-4s">CLUBD OASIS</span>
+								</h1>
+								
+								 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<p class="intro-title-top font_eng">
+								Grape Lounge  </p>
+		</div>
+	</div>
+
+	  
+	</div>
+</div>
+</section>
+<!-- End  -->
+
+
+
+<!-- 달력아래 컨텐츠 --> 
+<section class="div_date" style="">
+	<div class="container aos-init aos-animate service">
+		
+	
+		 <img src="/img/main/oasis.png" class="img-d img-fluid">
+		 <p class="tc fs22">Club D Oasis는 사막 한 가운데, 갈증 속에서 만나는 오아시스처럼<br/>
+	바쁜 일상에 치인 우리에게 휴식을 주는 공간이 되고자 합니다.
+		 </p>
+	</div>
+
+
+
+
 </section>
 
 
@@ -468,8 +471,7 @@
 
 <!--swiper섬네일 옵션-->
 <script>
-	
-
+	 
 $(document).ready(function($) {
   
 	$(".scroll_move").click(function(event){         
@@ -535,8 +537,12 @@ function fnQrScan(){
 	$('#close').on("click", function() {
 		$('#layer_pop').hide();
 	});
+
 	
+	    
+	    
 </script>
+  
   
 </body>
 
