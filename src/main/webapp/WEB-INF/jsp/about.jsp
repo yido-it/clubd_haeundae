@@ -1,6 +1,4 @@
-<!-- 
-회사소개
--->
+<!-- 회사소개 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
@@ -8,6 +6,198 @@
 
 <style>
 .owl-dots{display:none}
+
+.small-container {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    padding: 3em;
+    background: #f9f9f9;
+}
+.login_wrap {
+    display: grid;
+}
+.login {
+    background: #fff;
+    padding: 3em;
+    width: 70%;
+    margin: 3em auto;
+}
+.login h1 {
+    margin-bottom: 50px;
+}
+.input_type label {
+    display: block;
+    color: #aaa;
+}
+.input_type input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 40px;
+}
+.radio_type input, .radio_type2 input, .file_type input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.sns_login {
+    margin-top: 40px;
+	clear: both;
+}
+.sns_login .btn_type {
+    font-size: 14px;
+    width: 100%;
+}
+.sns_login a {
+    margin-top: 10px;
+}
+.sns_login span {
+    display: inline-block;
+    min-width: 120px;
+    text-align: left;
+}
+.join_link {
+    margin-top: 56px;
+    padding: 20px 240px 20px 20px;
+    background: #f5f5f5;
+    position: relative;
+}
+.join_link p {
+    font-size: 14px;
+    margin-top: 2px;
+    color: #aaa;
+}
+.join_link a {
+    font-size: 14px;
+    width: 180px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background: white;
+}
+.btn_white {
+    border-color: #ddd;
+    color: #333;
+}
+
+.btn_type {
+    display: inline-block;
+    padding: 0 24px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.login_wrap .btn_wrap {
+    margin-top: 40px;
+    font-size: 0;
+    text-align: center;
+}
+.btn_one .btn_type {
+    width: 100%;
+    padding: 0;
+}
+.btn_red {
+    background: #f85549;
+    border-color: #f85549;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+.btn_type {
+    display: inline-block;
+    padding: 0 24px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.login_menu {
+    font-size: 14px;
+    margin-top: 20px;
+}
+.login_menu > div {
+    float: left;
+}
+.login_menu > .find_menu {
+    float: right;
+}
+.find_menu a {
+    color: #333;
+    margin-left: 10px;
+}
+.age_type.no_line {
+    
+}
+.age_type {
+    text-align: center;
+    margin: 0 -12px;
+    padding: 0;
+}
+.age_type a {
+    display: block;
+    width: calc(50% - 24px);
+    margin: 0 12px;
+    padding: 40px 20px 20px;
+    color: #333;
+    float: left;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+.age_type a strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 10px;
+}
+.age_type a span {
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 5px;
+    line-height: 1.25;
+}
+.terms {
+    font-size: 14px;
+    height: 150px;
+    padding: 20px;
+    margin-top: 10px;
+    overflow: auto;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    color: #aaa;
+}
+.sort_wrap {
+    position: relative;
+}
+.sort_wrap .radio_type2 {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+}
+.sort_wrap .radio_type2 > span:first-child {
+    margin-left: 0;
+}
+
+.sort_wrap .radio_type2 > span {
+    margin-left: 10px;
+}
 </style>
 
 <body>
@@ -17,6 +207,346 @@
 <main id="main">
 	<!-- 상단 이미지 및 설명 -->
 	<jsp:include page="common/top.jsp" />
+	
+	
+	<div class="container">
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>로그인</h1>
+				<div class="login_wrap">					
+					<div class="input_wrap">
+						<div class="input_type">
+							<label for="login_id">아이디</label>
+							<input type="text" id="mbIdStr" name="mbIdStr" placeholder="" value="">
+						</div>
+						<div class="input_type">
+							<label for="login_pw">비밀번호</label>
+							<input type="password" id="mbPw" name="mbPw" placeholder="" value="">
+						</div>
+					</div>
+					<div class="login_menu">
+						<div class="chk_type">
+							<input type="checkbox" name="chk_saveId" id="chk_saveId" value=""> <label for="chk_saveId">아이디 저장</label>
+						</div>
+						<div class="find_menu">
+							<a href="javascript:void(0);" id="btn_findIdPage">아이디 찾기</a>
+							<a href="javascript:void(0);" id="btn_findPwPage">비밀번호 찾기</a>
+						</div>
+					</div>
+					<div class="btn_wrap btn_one">
+						<button type="submit" class="btn_type btn_red" value="로그인" id="btn_login">로그인</button>
+					</div>
+				</div>
+				<div class="sns_login">
+					<h5>SNS 간편 로그인</h5>
+					<div>
+						<a href="javascript:void(0);" class="btn_type btn_white" id="btn_kakaoLogin">
+							<span>
+								<i>카카오</i> 로그인
+							</span>
+						</a>
+						<a href="javascript:void(0);" class="btn_type btn_white" id="btn_naverLogin">
+							<span>
+								<i>네이버</i> 로그인
+							</span>
+						</a>
+					</div>
+				</div>
+				<div class="join_link">
+					<h5>아직 회원이 아니신가요?</h5>
+					<p>회원이 되시면 홈페이지에서 제공하는 온라인 서비스를 이용하실 수 있습니다.</p>
+					<a href="javascript:void(0);" class="btn_type btn_white btn_join">회원가입</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>회원가입</h1>
+				<div class="login_wrap">					
+					<div class="age_type no_line">
+						<a href="javascript:void(0);" id="btn_joinKid">
+							<strong>만 14세 미만</strong>
+							<span>본인 및 법정대리인<br> 인증이 필요합니다</span>
+						</a>
+						<a href="javascript:void(0);" id="btn_joinAdult">
+							<strong>만 14세 이상</strong>
+							<span>본인 확인<br> 인증이 필요합니다</span>
+						</a>
+					</div>
+				</div>
+				<div class="sns_login">
+					<h5>SNS 간편 회원가입</h5>
+					<p>SNS계정으로 빠르고 쉽게 회원가입 할 수 있습니다.</p>
+					<div>
+						<a href="javascript:void(0);" class="btn_type btn_white" id="btn_kakaoLogin">
+							<span>
+								<i>카카오</i> 회원가입
+							</span>
+						</a>
+						<a href="javascript:void(0);" class="btn_type btn_white" id="btn_naverLogin">
+							<span>
+								<i>네이버</i> 회원가입
+							</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>회원가입</h1>
+				<div class="login_wrap">					
+					<div class="age_type">
+						<a href="javascript:void(0);" class="phone_cert" id="hpAuth" style="display: inline-block; float: none;">
+							<strong>휴대폰 인증</strong>
+							<span>휴대폰 본인 확인을 통해<br> 실명확인 후 가입합니다</span>
+						</a>
+					</div>
+				</div>
+				<div class="sns_login">
+					<p>2012년 8월 18일부터 시행되는 정보통신망 이용 촉진 및 정보보호 등에 관한 법류(이하 정보통신망법) 제 23조의 2
+					 ”주민등록번호의 사용제한” 에 따라 주민등록번호를 입력받지 않습니다.<br>
+					 이에따라 회원가입시 주민등록번호를 입력하는 실명인증 대신 본인명의로 가입된 휴대폰을 이용하여 본인인증을 하셔야 
+					 회원가입을 하실 수 있습니다.
+					 </p>
+					 <hr>
+					<p>본인인증에 실패하셨나요?<br>
+					정보가 해당 인증기관에 등록되어 있지 않거나 기타 다른 사유로 실패한 경우일 수 있습니다.<br>
+					인증이 안되시는 경우 나이스신용평가정보 고객센터(1600-1522)로 문의하여 주시기 바랍니다.<br>
+					통화 가능시간(평일:09~18시, 토/일요일(공휴일):휴무)<br>
+					<br>
+					국내거주 외국인의 회원가입은 법무부 출입국관리사무소에서 등록번호를 부여 받은 경우에만 가능합니다.
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h2>회원가입</h2>
+				<div class="input_wrap">
+					<div class="input_type">
+						<div class="sort_wrap">
+							<label for="join_id">아이디</label>
+							<input type="text" name="mbId" id="mbId" placeholder="6~10자리, 영문으로 시작">
+							<a href="javascript:void(0);" class="btn_type btn_white" id="btn_duplCheck">중복확인</a>
+						</div>
+						<p class="check_result false" id="check_result"></p>
+					</div>
+					<div class="input_type">
+						<label for="login_pw">비밀번호</label>
+						<input type="password" name="mbPw" id="mbPw" placeholder="9~20자리, 영문/숫자/특수문자 3개조합">
+					</div>
+					<div class="input_type">
+						<label for="login_pw_chk">비밀번호 확인</label>
+						<input type="password" name="chkMbPw" id="chkMbPw">
+					</div>
+					<div class="input_type">
+						<label for="login_email">이메일</label>
+						<input type="email" name="mbEmail" id="mbEmail">
+					</div>
+					<div class="input_type sort_wrap">
+						<label for="join_name">이름</label>
+						<input type="text" name="mbWname" id="mbWname" readonly="readonly" value="김다예">
+						<div class="radio_type2">
+							<span>
+								<input type="radio" name="mbWsex" id="male" value="01"> 
+								<label for="male">남자</label>
+							</span>
+							<span>
+								<input type="radio" name="mbWsex" id="female" value="02" checked="checked">  
+								<label for="female">여자</label>
+							</span>
+						</div>
+					</div>
+					<div class="input_type">
+						<label for="join_birth">생년월일</label>
+						<input type="tel" name="mbWbirthymd" id="mbWbirthymd" value="19921114" readonly="readonly">
+					</div>
+					<div class="input_type">
+						<label for="join_phone">휴대폰 번호</label>
+						<input type="tel" name="mbHp" id="mbHp" value="01028896660" readonly="readonly">
+					</div>
+					<div class="input_type">
+						<label>지역</label>
+						<div class="local_pick">
+							<select class="slt_type" name="addrSido" id="addrSido"><option value="11">서울</option><option value="26">부산</option><option value="27">대구</option><option value="28">인천</option><option value="29">광주</option><option value="30">대전</option><option value="31">울산</option><option value="36">세종</option><option value="41">경기</option><option value="42">강원</option><option value="43">충북</option><option value="44">충남</option><option value="45">전북</option><option value="46">전남</option><option value="47">경북</option><option value="48">경남</option><option value="50">제주</option><option value="99">해외</option><option value="98">미등록</option></select>
+							<select class="slt_type" name="addrSigungu" id="addrSigungu"><option value="110">종로구</option><option value="140">중구</option><option value="170">용산구</option><option value="200">성동구</option><option value="215">광진구</option><option value="230">동대문구</option><option value="260">중랑구</option><option value="290">성북구</option><option value="305">강북구</option><option value="320">도봉구</option><option value="350">노원구</option><option value="380">은평구</option><option value="410">서대문구</option><option value="440">마포구</option><option value="470">양천구</option><option value="500">강서구</option><option value="530">구로구</option><option value="545">금천구</option><option value="560">영등포구</option><option value="590">동작구</option><option value="620">관악구</option><option value="650">서초구</option><option value="680">강남구</option><option value="710">송파구</option><option value="740">강동구</option></select>
+						</div>
+					</div>
+				</div>
+				<div class="join_agree">
+					<div class="chk_type">
+						<input type="checkbox" class="allchkbox" id="allchk" onclick="fn_checkAll();">
+						<label for="allchk"><b>전체 동의</b></label>
+					</div>
+					<div class="terms_wrap">
+						<div class="inner">
+							<div class="chk_type">
+								<input type="checkbox" class="chkbox" name="checkRow" id="chk1" onclick="fn_unAll();">
+								<label for="chk1">경주월드 이용약관(필수)</label>
+							</div>
+							<div class="terms">
+								<ol>
+									<li>
+										제 1 조 목적<br>
+										이 약관은 경주월드(주) (이하 "회사"라 합니다)에서 제공하는 인터넷 정보 서비스 (이하 "서비스"라 한다)의 이용 조건ㆍ절차, 이용자의 권리ㆍ의무 및 기타 필요한 사항을 규정함을 목적으로 합니다.
+									</li>
+									<li>
+										제 2 조 약관의 효력과 변경
+										<ol>
+											<li>서비스는 본 약관에 규정된 조항을 변경 없이 이용자가 수락하는 것을 조건으로 제공됩니다. 이용자께서 본 서비스를 사용하면 본 약관에 대하여 이용자가 동의한다는 것을 의미합니다.</li>
+											<li>(회사)는 약관의 규제 등에 관한 법률, 전자거래 기본법, 전자서명법, 정보통신망 이용 촉진 등에 관한 법률, 방문판매 등에 관한 법률, 소비자 보호법 등 관련법을 위배하지 않는 범위에서 이 약관을 개정할 수있습니다.</li>
+											<li>(회사)는 전자상거래 등에서의 소비자보호에 관한 법률, 전자거래 기본법, 전자서명법, 정보통신망 이용촉진 등에 관한 법률, 방문판매 등에 관한 법률, 소비자보호법 등 관련법을 위해하지 않는 범위에서 이 약관을 개정할 수 있습니다.</li>
+											<li>(회사)가 약관을 개정할 경우에는 적용일자 및 개정사유를 명시하여 현행약관과 함께 "서비스"의 초기화면에 그 적용일자 7일 이전부터 적용일자 전일까지 공지합니다. 다만, 이용자에게 불리하게 약관내용을 변경하는 경우에는 최소한 30일 이상의 사전 유예기간을 두고 공지합니다. 이 경우 회사는 개정전 내용과 개정후 내용을 명확하게 비교하여 이용자가 알기 쉽도록 표시합니다.</li>
+											<li>(회사)가 약관을 개정할 경우에는 그 개정약관은 그 적용일자 이후에 체결되는 계약에만 적용되고 그 이전에 이미 체결된 계약에 대해서는 개정전의 약관조항이 그대로 적용됩니다. 다만 이미 계약을 체결한 이용자가 개정약관 조항의 적용을 받기를 원하는 뜻을 제3항에 의한 개정약관의 공지기간 내에 회사에 송신하여 회사의 동의를 받은 경우에는 개정약관 조항이 적용됩니다.</li>
+										</ol>
+									</li>
+								</ol>
+							</div>
+						</div>
+						<div class="inner">
+							<div class="chk_type">
+								<input type="checkbox" class="chkbox" name="checkRow" id="chk2" onclick="fn_unAll();">
+								<label for="chk2">개인정보 보호정책 동의(필수)</label>
+							</div>
+							<div class="terms">
+								경주월드는 귀하의 개인정보보호를 매우 중요시하며, 『정보통신망 이용촉진 및 정보보호에 관한 법률』상의 개인정보보호규정 및 정보통신부가 제정한 『개인정보보호지침』을 준수하고 있습니다. 경주월드는 개인정보취급방침을 통하여 귀하께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.<br><br>
+								경주월드는 개인정보취급방침을 홈페이지 화면에 공개함으로써 귀하께서 언제나 용이하게 보실 수 있도록 조치하고 있습니다.<br><br>
+								<ol>
+									<li>
+										1. 개인정보의 수집 및 이용목적
+										<p>경주월드는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다.</p>
+										<ul>
+											<li>성명, 아이디, 비밀번호, 전화번호, 휴대전화번호 : 회원제 서비스 이용에 따른 본인 확인, 개인 식별, 불량회원의 부정이용방지, 비인가 사용 방지, 가입 의사 확인, 가입회수 제한, 만 14세 미만 아동 개인정보 수집 시 법정 대리인 동의 여부 확인, 추후 법정 대리인 본인확인</li>
+											<li>전자우편(e-mail)주소, (뉴스레터 수신여부) : 고지사항 전달, 본인 의사 확인, 불만사항 민원 처리 등 원활한 의사소통 경로의 확보, 새로운 서비스, 이벤트 정보 등 최신 정보의 안내</li>
+											<li>그 외 선택항목 : 개인맞춤 서비스를 제공하기 위한 자료</li>
+											<li>
+												서비스 이용과정이나 사업처리 과정에서 아래와 같은 정보들이 자동으로 생성되어 수집될 수 있습니다.
+												<p>IP Address, 쿠키, 방문 일시, 서비스 이용 기록, 불량 이용 기록</p>
+											</li>
+											<li>
+												부가 서비스 및 맞춤식 서비스 이용 또는 이벤트 응모 과정에서 해당 서비스의 이용자에 한해서만 아래와 같은 정보들이 수집될 수 있습니다.
+												<p>주소, 연락처, 사용 이동통신사 등</p>
+											</li>
+										</ul>
+									</li>
+									<li>
+										2. 개인정보의 수집범위
+										<p>경주월드리조트는 별도의 회원가입 절차 없이 대부분의 컨텐츠에 자유롭게 접근할 수 있습니다. 경주월드리조트의 회원제 서비스를 이용하시고자 할 경우 다음의 필수사항을 입력해주셔야 하며, 선택사항은 입력하시지 않았다 하여 서비스 이용에 제한은 없습니다.</p>
+										<ol>
+											<li>
+												회원가입 시 수집하는 개인정보의 범위
+												<p>성명, 희망 ID, 비밀번호, 주소, 전화번호, 휴대전화 번호, 이메일주소, 생년월일</p>
+											</li>
+											<li>
+												서비스 이용과정에서 생성, 수집되는 정보
+												<p>서비스 이용기록, 접속로그, 쿠키, 접속IP정보, 결제기록, 이용정지 기록</p>
+											</li>
+										</ol>
+									</li>
+									<li>
+										3. 개인정보의 보유기간 및 이용기간
+										<ol>
+											<li>
+												귀하의 개인정보는 다음과 같이 개인정보의 수집목적 또는 제공받은 목적이 달성되면 지체 없이 파기됩니다. 단, 상법 등 법령의 규정에 의하여 보존할 필요성이 있는 경우에는 예외로 합니다.
+												<ul>
+													<li>회원가입정보의 경우, 회원가입을 탈퇴하거나 회원에서 제명된 때</li>
+													<li>설문조사, 이벤트 등 일시적 목적을 위하여 수집된 경우 : 당해 설문 조사, 이벤트 등이 종료한 때</li>
+												</ul>
+											</li>
+											<li>
+												위 개인정보 수집목적 달성 시 즉시파기 원칙에도 불구하고 다음과 같이 거래 관련 권리 의무 관계의 확인 등을 이유로 일정기간 보유하여야 할 필요가 있을 경우에는 전자상거래 등에서의 소비자보호에 관한 법률 등에 근거하여 일정기간 보유합니다.
+												<p>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</p>
+											</li>
+										</ol>
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+					<span style="font-size:0.9em;">(나이스평가정보에서 인증 받은 휴대폰 번호를 사용하고 있습니다.)</span>
+					<div class="agree_wrap">
+						<div class="agree_list">
+							서비스 및 이벤트 혜택에 대한 정보 수신(선택)
+							<div class="chk_type">
+								<input type="checkbox" class="chkbox" name="emailFlag" id="emailFlag" value="Y" onclick="fn_unAll();">
+								<label for="emailFlag">이메일</label>
+							</div>
+							<div class="chk_type">
+								<input type="checkbox" class="chkbox" name="smsFlag" id="smsFlag" value="Y" onclick="fn_unAll();">
+								<label for="smsFlag">휴대전화</label>
+							</div>
+						</div>
+					</div>
+					<div class="btn_wrap btn_one">
+						<!-- <button type="submit" class="btn_type btn_red" id="btn_join">가입하기</button> -->
+						<a href="javascript:void(0);" class="btn_type btn_red" id="btn_join">가입하기</a>
+					</div>
+				</div>
+
+		</div>
+	</div>
+						
+						
+			
+			<div class="col-md-12  load_yeouido" id="payment">
+				<!--예약확인-->
+				<div class="row"> 
+					<div class="col-sm-12 ">
+						<div class="title-box-d ">
+							<h3 class="title-d">예약자 확인</h3>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-7">
+								<form action="/bookConfirm/result" method="post" role="form" class="php-email-form" id="frmBook">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<!-- 예약자 성함 -->
+											<div class="form-group">
+												<input type="text" name="name" id="name" class="form-control form-control-lg form-control-a" placeholder="예약자 성함" data-rule="minlen:2" data-msg="성함을 입력해주세요">
+												<div class="validate"></div>
+											</div>
+										</div>
+										<div class="col-md-6 mb-3">
+											<!-- 이메일주소 -->
+											<div class="form-group">
+												<input type="email" name="email" id="email" class="form-control form-control-lg form-control-a" placeholder="이메일주소" data-rule="email" data-msg="이메일주소를 입력해주세요">
+												<div class="validate"></div>
+											</div>
+										</div>
+		
+										<div class="col-md-12 text-center">
+											<button type="submit" class="btn btn-dark btn-lg btn-block"><i class="fa-solid fa-check"></i> 예약 조회</button>										
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+			<!--//예약확인--> 
+		
+			<!--예약조회 결과-->  
+			<div class="reservation_confirm" style="display: none;">
+				<div class="title-box-d text-center"> 
+					<hr> 
+					<h5 class="pt-3"> 
+					<i class="fa-solid fa-circle-check"></i> <span class="bookResult">홍길동 님은 2건의 예약내역이 있습니다.</span>  </h5> 
+				</div>
+		
+				<!-- 예약 목록 -->
+				<div class="resultContent"></div>
+				
+			</div>
+		</div>
+		
+		
 
     <!-- =======회사소개 ======= -->
 	<section class="section-agents section-t3">
