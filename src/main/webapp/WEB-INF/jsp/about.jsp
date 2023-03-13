@@ -3,203 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <jsp:include page="common/head.jsp" />
-
-<style>
-.owl-dots{display:none}
-
-.small-container {
-    width: 100%;
-    border: 1px solid #e0e0e0;
-    padding: 3em;
-    background: #f9f9f9;
-}
-.login_wrap {
-    display: grid;
-}
-.login {
-    background: #fff;
-    padding: 3em;
-    width: 70%;
-    margin: 3em auto;
-}
-.login h1 {
-    margin-bottom: 50px;
-}
-.input_type label {
-    display: block;
-    color: #aaa;
-}
-.input_type input {
-    display: block;
-    width: 100%;
-    height: 40px;
-    font-size: 18px;
-    border-bottom: 1px solid #e5e5e5;
-    line-height: 40px;
-}
-.radio_type input, .radio_type2 input, .file_type input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-}
-
-.sns_login {
-    margin-top: 40px;
-	clear: both;
-}
-.sns_login .btn_type {
-    font-size: 14px;
-    width: 100%;
-}
-.sns_login a {
-    margin-top: 10px;
-}
-.sns_login span {
-    display: inline-block;
-    min-width: 120px;
-    text-align: left;
-}
-.join_link {
-    margin-top: 56px;
-    padding: 20px 240px 20px 20px;
-    background: #f5f5f5;
-    position: relative;
-}
-.join_link p {
-    font-size: 14px;
-    margin-top: 2px;
-    color: #aaa;
-}
-.join_link a {
-    font-size: 14px;
-    width: 180px;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    background: white;
-}
-.btn_white {
-    border-color: #ddd;
-    color: #333;
-}
-
-.btn_type {
-    display: inline-block;
-    padding: 0 24px;
-    height: 48px;
-    line-height: 48px;
-    text-align: center;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: 400;
-}
-.login_wrap .btn_wrap {
-    margin-top: 40px;
-    font-size: 0;
-    text-align: center;
-}
-.btn_one .btn_type {
-    width: 100%;
-    padding: 0;
-}
-.btn_red {
-    background: #f85549;
-    border-color: #f85549;
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: 0;
-}
-.btn_type {
-    display: inline-block;
-    padding: 0 24px;
-    height: 48px;
-    line-height: 48px;
-    text-align: center;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: 400;
-}
-.login_menu {
-    font-size: 14px;
-    margin-top: 20px;
-}
-.login_menu > div {
-    float: left;
-}
-.login_menu > .find_menu {
-    float: right;
-}
-.find_menu a {
-    color: #333;
-    margin-left: 10px;
-}
-.age_type.no_line {
-    
-}
-.age_type {
-    text-align: center;
-    margin: 0 -12px;
-    padding: 0;
-}
-.age_type a {
-    display: block;
-    width: calc(50% - 24px);
-    margin: 0 12px;
-    padding: 40px 20px 20px;
-    color: #333;
-    float: left;
-    border: 1px solid #e5e5e5;
-    border-radius: 5px;
-}
-.age_type a strong {
-    display: block;
-    font-size: 18px;
-    font-weight: 400;
-    margin-top: 10px;
-}
-.age_type a span {
-    display: inline-block;
-    font-size: 14px;
-    margin-top: 5px;
-    line-height: 1.25;
-}
-.terms {
-    font-size: 14px;
-    height: 150px;
-    padding: 20px;
-    margin-top: 10px;
-    overflow: auto;
-    border: 1px solid #e5e5e5;
-    border-radius: 5px;
-    color: #aaa;
-}
-.sort_wrap {
-    position: relative;
-}
-.sort_wrap .radio_type2 {
-    position: absolute;
-    right: 0;
-    bottom: 8px;
-}
-.sort_wrap .radio_type2 > span:first-child {
-    margin-left: 0;
-}
-
-.sort_wrap .radio_type2 > span {
-    margin-left: 10px;
-}
-</style>
-
+<link href="/css/member.css" rel="stylesheet">
 <body>
 <!-- 상단 메뉴 -->
 <jsp:include page="common/navigation.jsp" />
@@ -487,9 +291,150 @@
 						<a href="javascript:void(0);" class="btn_type btn_red" id="btn_join">가입하기</a>
 					</div>
 				</div>
-
+			</div>
 		</div>
-	</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>회원가입 완료</h1>				
+				<h5>회원가입이 완료되었습니다</h5>
+				<p>클럽디 오아시스 회원이 되신 것을 환영합니다.<br>
+				이제 클럽디 오아시스가 제공하는 다양한 서비스를 경험해 보실 수 있습니다.</p>
+				<div class="join_link tc" style="padding: 30px 0px;">
+					<h5><b style="font-size: 15px; font-weight: normal;">아이디</b> dy1114</h5>
+				</div>
+				<div class="btn_wrap btn_small btn_width_limit tc">
+					<a href="javascript:void(0);" class="btn_type btn_white btn_mypage">로그인하기</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>아이디 찾기</h1>				
+				<form>
+					<div class="login_wrap">
+						<div class="input_wrap">
+							<div class="input_type">
+								<label for="find_name">이름</label>
+								<input type="text" name="mbWname" id="mbWname">
+							</div>
+							<div class="input_type">
+								<label for="find_phone">휴대폰 번호</label>
+								<input type="text" name="mbHp" id="mbHp" class="mbHp">
+							</div>
+						</div>
+						<span><br></span>
+						<!-- 맞지 않을때 팝업 메시지 시작 -->
+						<div class="notice resultN" style="display: none;">
+							<b>등록된 회원이 아닙니다.</b>
+						</div>
+						<!-- 맞지 않을때 팝업 메시지 끝 -->
+						<!-- 찾기완료시 시작 -->
+						<div class="notice resultY" style="display: none;">
+							<b>입력하신 정보와 일치하는 정보입니다.</b><br>(개인정보 보호를 위해 끝자리는 *로 표시)
+						</div>
+						<table class="resultY" style="display: none;">
+							<tbody id="resultTbody">				
+							</tbody>
+						</table>
+						<div class="textarea resultY tc" style="display: none;">
+							소셜 아이디는 해당 SNS를 통해 로그인 하시기 바랍니다.
+						</div>
+						<!-- 찾기완료시 끝 -->
+						<div class="btn_wrap btn_one">
+							<a href="javascript:void(0);" class="btn_type btn_red" id="btn_find">아이디 찾기</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>비밀번호 찾기</h1>				
+				<form>
+					<div class="login_wrap">
+						<div class="input_wrap">
+							<div class="input_type">
+								<label for="find_name">아이디</label>
+								<input type="text" name="mbId" id="mbId">
+							</div>
+							<div class="input_type">
+								<label for="find_name">이름</label>
+								<input type="text" name="mbWname" id="mbWname">
+							</div>
+							<div class="input_type">
+								<label for="find_phone">휴대폰 번호</label>
+								<input type="text" name="mbHp" id="mbHp">
+							</div>
+						</div>
+						<span><br></span>
+						<div class="notice resultN" style="display: none;">
+							<b>등록된 회원이 아닙니다.</b>
+						</div>
+						<div class="btn_wrap btn_one">
+							<a href="javascript:void(0);" class="btn_type btn_red" id="btn_find">비밀번호 찾기</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>비밀번호 찾기</h1>				
+				<p class="tc">등록된 핸드폰번호로 임시 비밀번호가 발송되었습니다!</p>
+				<div class="join_link tc mt10" style="padding: 30px 0px;">
+					<h5><b style="font-size: 15px; font-weight: normal;">등록된 휴대폰번호</b> 010-2889-6660</h5>
+				</div>
+				<div class="btn_wrap btn_small btn_width_limit tc">
+					<a href="javascript:void(0);" class="btn_type btn_white btn_mypage">로그인하기</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="MemberWrap">
+		<div class="small-container">
+			<div class="login">
+				<h1>비밀번호 변경</h1>
+				<h5>임시 비밀번호로 로그인하셨습니다.</h5>			
+				<p>안전한 계정관리를 위하여 비밀번호를 변경하셔야 서비스 이용이 가능합니다.</p>
+				<div class="input_wrap">
+					<div class="input_type">
+						<label for="login_pw necessary"><b style="color: red;">*</b> 기존(임시) 비밀번호</label>
+						<input type="password" name="mbPw" id="mbPw" placeholder="기존(임시) 비밀번호">
+					</div>
+					<div class="input_type">
+						<label for="login_pw necessary"><b style="color: red;">*</b> 새 비밀번호</label>
+						<input type="password" name="mbPw" id="mbPw" placeholder="9~20자리, 영문/숫자/특수문자 3개조합">
+					</div>
+					<div class="input_type">
+						<label for="login_pw necessary"><b style="color: red;">*</b> 새 비밀번호 확인</label>
+						<input type="password" name="mbPw" id="mbPw" placeholder="새 비밀번호를 한번 더 입력해주세요.">
+					</div>					
+				</div>
+				<span><br></span>
+				<div class="btn_wrap btn_one mt30">
+					<a href="javascript:void(0);" class="btn_type btn_red" id="btn_find">비밀번호 변경하기</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="small-container">
+			<div class="login">
+				<h1>비밀번호 변경</h1>
+				<h5>임시 비밀번호가 변경되었습니다.</h5>			
+				<p>변경된 비밀번호로 로그인 후 서비스를 이용해 주시기 바랍니다.</p>
+				<div class="btn_wrap btn_small btn_width_limit tc">
+					<a href="javascript:void(0);" class="btn_type btn_white btn_mypage">로그인하기</a>
+				</div>
+			</div>
+		</div>
+		
+		<h1>티켓 예매 조회</h1>	
+		<p>그동안 예매하신 내역을 확인할 수 있어요</p>
 						
 						
 			
