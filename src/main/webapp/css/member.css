@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+p, label, a, span {
+	font-family: 'Pretendard-Regular';
+	font-size: 14px;
+}
+input::placeholder {
+	color: #ddd;
+	font-size: 14px;
+}
 .owl-dots{display:none}
 
 .small-container {
@@ -26,19 +40,17 @@
     display: block;
     width: 100%;
     height: 40px;
-    font-size: 18px;
     border-bottom: 1px solid #e5e5e5;
     line-height: 40px;
 }
 .radio_type input, .radio_type2 input, .file_type input {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
+    width: 20px;
+    height: 20px;
+	margin: 3px;
+}
+.radio_type2 input {
+  accent-color: #fb5409;
 }
 
 .sns_login {
@@ -91,12 +103,10 @@
     position: relative;
 }
 .join_link p {
-    font-size: 14px;
     margin-top: 2px;
     color: #aaa;
 }
 .join_link a {
-    font-size: 14px;
     width: 180px;
     position: absolute;
     top: 50%;
@@ -150,7 +160,6 @@
     font-weight: 400;
 }
 .login_menu {
-    font-size: 14px;
     margin-top: 20px;
 }
 .login_menu > div {
@@ -204,18 +213,15 @@
 }
 .age_type a strong {
     display: block;
-    font-size: 18px;
     font-weight: 400;
     margin-top: 10px;
 }
 .age_type a span {
     display: inline-block;
-    font-size: 14px;
     margin-top: 5px;
     line-height: 1.25;
 }
 .terms {
-    font-size: 14px;
     height: 150px;
     padding: 20px;
     margin-top: 10px;
@@ -223,6 +229,11 @@
     border: 1px solid #e5e5e5;
     border-radius: 5px;
     color: #aaa;
+    font-size: 13px;
+    font-family: 'Pretendard-Regular';
+}
+.terms ol, ul {
+    padding-inline-start: 1em;
 }
 .sort_wrap {
     position: relative;
@@ -235,33 +246,16 @@
 .radio_type2 input,
 .file_type input {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
+    width: 15px;
+    height: 15px;
 }
 .radio_type2 label {
     display: inline-block;
-    font-size: 18px;
     font-weight: 400;
     padding-left: 21px;
     color: #333;
     position: relative;
     cursor: pointer;
-}
-.radio_type2 label:after {
-    content: '';
-    width: 16px;
-    height: 16px;
-    background-image: url(/img/member/radio_type2.png);
-    background-size: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
 }
 .sort_wrap .radio_type2 {
     position: absolute;
@@ -275,6 +269,7 @@
 
 .sort_wrap .radio_type2 > span {
     margin-left: 10px;
+    float: left;
 }
 .local_pick {
     font-size: 0;
@@ -285,7 +280,6 @@
     margin: 0 8px;
 }
 .slt_type {
-    font-size: 18px;
     width: 100%;
     border-bottom: 1px solid #e5e5e5;
     height: 40px;
@@ -305,9 +299,9 @@
     display: block;
     width: 100%;
     height: 40px;
-    font-size: 18px;
     border-bottom: 1px solid #e5e5e5;
     line-height: 40px;
+    font-size: 18px;
 }
 input[type="text"],
 input[type="tel"],
@@ -339,7 +333,7 @@ textarea, button, select {
 	border-color: #fb5409;
 }
 .sort_wrap .btn_type {
-    font-size: 12px;
+    font-size: 14px;
     height: 32px;
     line-height: 32px;
     position: absolute;
@@ -356,34 +350,27 @@ textarea, button, select {
 }
 .chk_type input[type="checkbox"] {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 20px;
+    height: 20px;
     padding: 0;
-    margin: -1px;
     overflow: hidden;
-    clip: rect(0,0,0,0);
     border: 0;
+}
+.chk_type input[type="checkbox"] {
+	accent-color: #fb5409;
+}
+.chk_type input[type="checkbox"]:hover {
+	accent-color: #fb5409;
 }
 .chk_type input[type="checkbox"] + label {
     position: relative;
     padding-left: 34px;
-}
-.chk_type input[type="checkbox"] + label:after {
-    content: '';
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url(/img/member/chkbox.png);
-    background-size: 24px;
 }
 .local_pick .slt_type {
     width: calc(50% - 16px);
     margin: 0 8px;
 }
 .slt_type {
-    font-size: 18px;
     width: 100%;
     border-bottom: 1px solid #e5e5e5;
     height: 40px;
@@ -398,7 +385,6 @@ textarea, button, select {
 }
 .btn_wrap.btn_width_limit a, .btn_wrap.btn_width_limit button {
     max-width: 156px;
-    font-size: 14px;
     margin-top: 80px;
 }
 .btn_small .btn_type {
@@ -406,7 +392,6 @@ textarea, button, select {
     margin: 0 6px;
     line-height: 36px;
     height: 36px;
-    font-size: 14px;
 }
 .textarea {
     border: 1px solid #dcdcdc;

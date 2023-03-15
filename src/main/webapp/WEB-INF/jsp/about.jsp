@@ -158,11 +158,11 @@
 						<div class="radio_type2">
 							<span>
 								<input type="radio" name="mbWsex" id="male" value="01"> 
-								<label for="male">남자</label>
+								<label for="male"> 남자</label>
 							</span>
 							<span>
 								<input type="radio" name="mbWsex" id="female" value="02" checked="checked">  
-								<label for="female">여자</label>
+								<label for="female"> 여자</label>
 							</span>
 						</div>
 					</div>
@@ -183,21 +183,21 @@
 					</div>
 				</div>
 				<div class="join_agree">
-					<div class="chk_type">
+					<div class="chk_type mt10">
 						<input type="checkbox" class="allchkbox" id="allchk" onclick="fn_checkAll();">
 						<label for="allchk"><b>전체 동의</b></label>
 					</div>
-					<div class="terms_wrap">
+					<div class="terms_wrap mt30">
 						<div class="inner">
 							<div class="chk_type">
 								<input type="checkbox" class="chkbox" name="checkRow" id="chk1" onclick="fn_unAll();">
-								<label for="chk1">경주월드 이용약관(필수)</label>
+								<label for="chk1">클럽디 오아시스 이용약관(필수)</label>
 							</div>
 							<div class="terms">
 								<ol>
 									<li>
 										제 1 조 목적<br>
-										이 약관은 경주월드(주) (이하 "회사"라 합니다)에서 제공하는 인터넷 정보 서비스 (이하 "서비스"라 한다)의 이용 조건ㆍ절차, 이용자의 권리ㆍ의무 및 기타 필요한 사항을 규정함을 목적으로 합니다.
+										이 약관은 클럽디 오아시스(주) (이하 "회사"라 합니다)에서 제공하는 인터넷 정보 서비스 (이하 "서비스"라 한다)의 이용 조건ㆍ절차, 이용자의 권리ㆍ의무 및 기타 필요한 사항을 규정함을 목적으로 합니다.
 									</li>
 									<li>
 										제 2 조 약관의 효력과 변경
@@ -212,18 +212,18 @@
 								</ol>
 							</div>
 						</div>
-						<div class="inner">
+						<div class="inner mt30">
 							<div class="chk_type">
 								<input type="checkbox" class="chkbox" name="checkRow" id="chk2" onclick="fn_unAll();">
 								<label for="chk2">개인정보 보호정책 동의(필수)</label>
 							</div>
 							<div class="terms">
-								경주월드는 귀하의 개인정보보호를 매우 중요시하며, 『정보통신망 이용촉진 및 정보보호에 관한 법률』상의 개인정보보호규정 및 정보통신부가 제정한 『개인정보보호지침』을 준수하고 있습니다. 경주월드는 개인정보취급방침을 통하여 귀하께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.<br><br>
-								경주월드는 개인정보취급방침을 홈페이지 화면에 공개함으로써 귀하께서 언제나 용이하게 보실 수 있도록 조치하고 있습니다.<br><br>
+								클럽디 오아시스는 귀하의 개인정보보호를 매우 중요시하며, 『정보통신망 이용촉진 및 정보보호에 관한 법률』상의 개인정보보호규정 및 정보통신부가 제정한 『개인정보보호지침』을 준수하고 있습니다. 클럽디 오아시스는 개인정보취급방침을 통하여 귀하께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.<br><br>
+								클럽디 오아시스는 개인정보취급방침을 홈페이지 화면에 공개함으로써 귀하께서 언제나 용이하게 보실 수 있도록 조치하고 있습니다.<br><br>
 								<ol>
 									<li>
 										1. 개인정보의 수집 및 이용목적
-										<p>경주월드는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다.</p>
+										<p>클럽디 오아시스는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다.</p>
 										<ul>
 											<li>성명, 아이디, 비밀번호, 전화번호, 휴대전화번호 : 회원제 서비스 이용에 따른 본인 확인, 개인 식별, 불량회원의 부정이용방지, 비인가 사용 방지, 가입 의사 확인, 가입회수 제한, 만 14세 미만 아동 개인정보 수집 시 법정 대리인 동의 여부 확인, 추후 법정 대리인 본인확인</li>
 											<li>전자우편(e-mail)주소, (뉴스레터 수신여부) : 고지사항 전달, 본인 의사 확인, 불만사항 민원 처리 등 원활한 의사소통 경로의 확보, 새로운 서비스, 이벤트 정보 등 최신 정보의 안내</li>
@@ -240,7 +240,7 @@
 									</li>
 									<li>
 										2. 개인정보의 수집범위
-										<p>경주월드리조트는 별도의 회원가입 절차 없이 대부분의 컨텐츠에 자유롭게 접근할 수 있습니다. 경주월드리조트의 회원제 서비스를 이용하시고자 할 경우 다음의 필수사항을 입력해주셔야 하며, 선택사항은 입력하시지 않았다 하여 서비스 이용에 제한은 없습니다.</p>
+										<p>클럽디 오아시스는 별도의 회원가입 절차 없이 대부분의 컨텐츠에 자유롭게 접근할 수 있습니다. 클럽디 오아시스의 회원제 서비스를 이용하시고자 할 경우 다음의 필수사항을 입력해주셔야 하며, 선택사항은 입력하시지 않았다 하여 서비스 이용에 제한은 없습니다.</p>
 										<ol>
 											<li>
 												회원가입 시 수집하는 개인정보의 범위
@@ -272,21 +272,21 @@
 							</div>
 						</div>
 					</div>
-					<span style="font-size:0.9em;">(나이스평가정보에서 인증 받은 휴대폰 번호를 사용하고 있습니다.)</span>
+					<span class="mt10" style="display: block;">(나이스평가정보에서 인증 받은 휴대폰 번호를 사용하고 있습니다.)</span>
 					<div class="agree_wrap">
 						<div class="agree_list">
-							서비스 및 이벤트 혜택에 대한 정보 수신(선택)
-							<div class="chk_type">
+							<span>서비스 및 이벤트 혜택에 대한 정보 수신(선택)</span>
+							<div class="chk_type mt10">
 								<input type="checkbox" class="chkbox" name="emailFlag" id="emailFlag" value="Y" onclick="fn_unAll();">
 								<label for="emailFlag">이메일</label>
 							</div>
-							<div class="chk_type">
+							<div class="chk_type mt10">
 								<input type="checkbox" class="chkbox" name="smsFlag" id="smsFlag" value="Y" onclick="fn_unAll();">
 								<label for="smsFlag">휴대전화</label>
 							</div>
 						</div>
 					</div>
-					<div class="btn_wrap btn_one">
+					<div class="btn_wrap btn_one mt30">
 						<!-- <button type="submit" class="btn_type btn_red" id="btn_join">가입하기</button> -->
 						<a href="javascript:void(0);" class="btn_type btn_red" id="btn_join">가입하기</a>
 					</div>
